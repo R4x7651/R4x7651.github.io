@@ -446,27 +446,99 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2022/11/18/SQLi-Labs%20%20Challenges/">
+            <a class="abstract-title" href="/2022/11/21/SQLi-Labs%20Stacked%20Injection/">
                 
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Challenges】</span>
+                <span class="abstract-title-text">[Untitled Post]</span>
             </a>
             <div class="abstract-content">
                 
+---
+title: SQLi-Labs靶场刷题记录【Stacked Challenges】
+date: 2022-11-17
+---
+
+
+Lesson 38stacked Query从这一节开始就是堆叠注入了，堆叠注入的基本原理是使用;分隔注入的sql语句，从而能在一次注入中执行多个SQL语句，其与union不同的是，union只能联合执行查询语句，而堆叠注入可以注入任何SQL语句回到题目，我们尝试堆叠注入语句修改用户的密码：
+1http://127.0.0.1/Less-38/?id=1&#x27;;update users set password=&#x27;hacked&#x...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/11/21">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/21</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/2022/11/21/SQLi-Labs%20Adv%20Challenges/">
+                
+                <span class="abstract-title-text">[Untitled Post]</span>
+            </a>
+            <div class="abstract-content">
+                
+---
+title: SQLi-Labs靶场刷题记录【Adv Challenges】
+date: 2022-11-16
+---
+
+
+Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显：输入admin:admin(username:password...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/11/21">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/21</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/2022/11/21/SQLi-Labs%20%20Challenges/">
+                
+                <span class="abstract-title-text">[Untitled Post]</span>
+            </a>
+            <div class="abstract-content">
+                
+---
+title: SQLi-Labs靶场刷题记录【Challenges】
+date: 2022-11-18
+---
 
 Lesson 54
 这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到秘钥（secret key），除了数据库名，表名，列名，数据都是随机先正常查询一下看看：
 1http://127.0.0.1/Less-54/index.php?id=1
 发现提示了目前的尝试次数，ok，先测试一下注入方式：
 1http://127.0.0.1/Less-54/index.php?id=1&#x27;--+
-正常回显，union注入暴表名：
-1http://127.0.0.1/Less-54/index.php?id=0&#x27; union select...
+正常回显，union注入暴表名：...
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
                 <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/18</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/21</span>
                 </div>
                 <!-- tags -->
                 
@@ -481,73 +553,16 @@ Lesson 54
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2022/11/17/SQLi-Labs%20Stacked%20Injection/">
+            <a class="abstract-title" href="/2022/11/10/SQLi-Labs%20Basic%20Challenges/">
                 
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Stacked Challenges】</span>
+                <span class="abstract-title-text">[Untitled Post]</span>
             </a>
             <div class="abstract-content">
                 
-
-Lesson 38stacked Query从这一节开始就是堆叠注入了，堆叠注入的基本原理是使用;分隔注入的sql语句，从而能在一次注入中执行多个SQL语句，其与union不同的是，union只能联合执行查询语句，而堆叠注入可以注入任何SQL语句回到题目，我们尝试堆叠注入语句修改用户的密码：
-1http://127.0.0.1/Less-38/?id=1&#x27;;update users set password=&#x27;hacked&#x27; where username=&#x27;Dumb&#x27;;--+
-需要注意的是，这里的表名和列名都需要依赖其他方式获得，因为...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/17</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2022/11/16/SQLi-Labs%20Adv%20Challenges/">
-                
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Adv Challenges】</span>
-            </a>
-            <div class="abstract-content">
-                
-
-
-Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显：输入admin:admin(username:password)：和前面的题差不多，显示出了Http包中的一些信息，burp抓包：可以在这里看到base64编码后的cookie头，解码后的结...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/16</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2022/10/23/SQLi-Labs%20Basic%20Challenges/">
-                
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Basic Challenges】</span>
-            </a>
-            <div class="abstract-content">
-                
+---
+title: SQLi-Labs靶场刷题记录【Basic Challenges】
+date: 2022-10-23
+---
 
 
 Lesson 1GET - Error based - Single quotes - String(基于错误的GET单引号字符型注入提示用参数名为id，值为数字，尝试一下：
@@ -555,16 +570,14 @@ Lesson 1GET - Error based - Single quotes - String(基于错误的GET单引号�
 显示了用户名和密码，测试后发现共有14条数据。
 【1】查列数1http://127.0.0.1/Less-1/?id=1&#x27; order by 3 --+
 
-1http://127.0.0.1/Less-1/?id=1&#x27; order by 4 --+
-到第四列时报错，共有三列数据
-【2】查库名1http://127.0.0.1/L...
+1http://127.0.0.1/Less-1/?...
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
                 <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/10/23</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/10</span>
                 </div>
                 <!-- tags -->
                 
@@ -803,6 +816,12 @@ Lesson 1GET - Error based - Single quotes - String(基于错误的GET单引号�
         
         
         
+        
+        
+        
+        
+        
+        
     
     
     
@@ -825,26 +844,26 @@ Lesson 1GET - Error based - Single quotes - String(基于错误的GET单引号�
             
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/18</span>
-            <a class="archive-post-title" href="/2022/11/18/SQLi-Labs%20%20Challenges/">SQLi-Labs靶场刷题记录【Challenges】</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20Stacked%20Injection/">[Untitled Post]</a>
         </li>
     
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/17</span>
-            <a class="archive-post-title" href="/2022/11/17/SQLi-Labs%20Stacked%20Injection/">SQLi-Labs靶场刷题记录【Stacked Challenges】</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20Adv%20Challenges/">[Untitled Post]</a>
         </li>
     
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span>
-            <a class="archive-post-title" href="/2022/11/16/SQLi-Labs%20Adv%20Challenges/">SQLi-Labs靶场刷题记录【Adv Challenges】</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20%20Challenges/">[Untitled Post]</a>
         </li>
     
         
         <li class="archive-post-item">
-            <span class="archive-post-date">10/23</span>
-            <a class="archive-post-title" href="/2022/10/23/SQLi-Labs%20Basic%20Challenges/">SQLi-Labs靶场刷题记录【Basic Challenges】</a>
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/2022/11/10/SQLi-Labs%20Basic%20Challenges/">[Untitled Post]</a>
         </li>
     
     </div>

@@ -22,7 +22,7 @@
     <meta name="description" content="道阻且长，行则将至">
 <meta property="og:type" content="website">
 <meta property="og:title" content="R4x&#39;s Blog">
-<meta property="og:url" content="http://r4x.top/archives/2022/index.html">
+<meta property="og:url" content="http://r4x.top/archives/2022/10/index.html">
 <meta property="og:site_name" content="R4x&#39;s Blog">
 <meta property="og:description" content="道阻且长，行则将至">
 <meta property="og:locale" content="en_US">
@@ -423,105 +423,6 @@
             <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
                 <main class="main index-page">
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2022/11/18/SQLi-Labs%20%20Challenges/">
-                
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Challenges】</span>
-            </a>
-            <div class="abstract-content">
-                 
-# Lesson 54
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202211180956666.png)
-
-这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到秘钥（secret key），除了数据库名，表名，列名，数据都是随机先正常查询一下看看：
-1http://127.0.0.1/Less-54/index.php?id=1
-发现提示了目前的尝试次数，ok，先测试一下注入方式：
-1http://127.0.0.1/Less-54/index.php?id=1&#x27...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/18</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2022/11/17/SQLi-Labs%20Stacked%20Injection/">
-                
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Stacked Challenges】</span>
-            </a>
-            <div class="abstract-content">
-                 
-# Lesson 38
-**stacked Query**
-![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202211171038993.png)
-从这一节开始就是堆叠注入了，堆叠注入的基本原理是使用`;`分隔注入的sql语句，从而能在一次注入中执行多个SQL语句，其与union不同的是，union只能联合执行查询语句，而堆叠注入可以注入任何SQL语句
-回到题目，我们尝试堆叠注入语句修改用户的密码：
-1http://127.0.0.1/Less-38/?id=1&#x27;;update users set pass...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/17</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2022/11/16/SQLi-Labs%20Adv%20Challenges/">
-                
-                <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Adv Challenges】</span>
-            </a>
-            <div class="abstract-content">
-                 
- ![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png)
-# Lesson 21
-**Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）**
-今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显：
-![](http...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/11/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/16</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
     
         
         

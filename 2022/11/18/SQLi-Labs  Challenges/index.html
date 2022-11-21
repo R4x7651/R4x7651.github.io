@@ -19,14 +19,13 @@
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="道阻且长，行则将至">
-    <meta name="description" content="Lesson 54 这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到秘钥（secret key），除了数据库名，表名，列名，数据都是随机先正常查询一下看看： 1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-54&#x2F;index.php?id&#x3D;1 发现提示了目前的尝试次数，ok，先测试一下注入方式： 1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-54&#x2F;index">
+    <meta name="description" content="# Lesson 54 ![](https:&#x2F;&#x2F;gitee.com&#x2F;n0usss&#x2F;my-pictures&#x2F;raw&#x2F;master&#x2F;pics&#x2F;202211180956666.png)  这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到秘钥（secret key），除了数据库名，表名，列名，数据都是随机先正常查询一下看看： 1http:&#x2F;&#x2F;127.0.0.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQLi-Labs靶场刷题记录【Challenges】">
-<meta property="og:url" content="http://r4x.top/2022/11/21/SQLi-Labs%20%20Challenges/index.html">
+<meta property="og:url" content="http://r4x.top/2022/11/18/SQLi-Labs%20%20Challenges/index.html">
 <meta property="og:site_name" content="R4x&#39;s Blog">
-<meta property="og:description" content="Lesson 54 这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到秘钥（secret key），除了数据库名，表名，列名，数据都是随机先正常查询一下看看： 1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-54&#x2F;index.php?id&#x3D;1 发现提示了目前的尝试次数，ok，先测试一下注入方式： 1http:&#x2F;&#x2F;127.0.0.1&#x2F;Less-54&#x2F;index">
+<meta property="og:description" content="# Lesson 54 ![](https:&#x2F;&#x2F;gitee.com&#x2F;n0usss&#x2F;my-pictures&#x2F;raw&#x2F;master&#x2F;pics&#x2F;202211180956666.png)  这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到秘钥（secret key），除了数据库名，表名，列名，数据都是随机先正常查询一下看看： 1http:&#x2F;&#x2F;127.0.0.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211180956666.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181003671.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181011954.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181013222.png">
@@ -52,12 +51,12 @@
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181538849.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181542481.png">
 <meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181543764.png">
-<meta property="article:published_time" content="2022-11-21T01:32:04.118Z">
-<meta property="article:modified_time" content="2022-11-21T01:35:03.586Z">
+<meta property="article:published_time" content="2022-11-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-21T01:39:41.725Z">
 <meta property="article:author" content="R4x">
 <meta property="article:tag" content="Security">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211180956666.png">
+<meta name="twitter:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181003671.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/favicon.ico">
@@ -364,7 +363,7 @@
                 <div class="post-intro-meta">
                     <!-- 撰写日期 -->
                     <span class="iconfont-archer post-intro-calander">&#xe676;</span>
-                    <span class="post-intro-time">2022/11/21</span>
+                    <span class="post-intro-time">2022/11/18</span>
                     <!-- busuanzi -->
                     
                         <span id="busuanzi_container_page_pv" class="busuanzi-pv">
@@ -519,7 +518,10 @@
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
-        <h1 id="Lesson-54"><a href="#Lesson-54" class="headerlink" title="Lesson 54"></a>Lesson 54</h1><p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211180956666.png"></p>
+         <meta name="referrer" content="no-referrer" />
+# Lesson 54
+![](https://gitee.com/n0usss/my-pictures/raw/master/pics/202211180956666.png)
+
 <p>这一关开始进入challenge部分，Lesson 54只有10次查询机会，我们的目标是拿到<strong>秘钥（secret key）</strong>，除了数据库名，表名，列名，数据都是随机<br>先正常查询一下看看：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-54/index.php?id=1</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211181003671.png"><br>发现提示了目前的尝试次数，ok，先测试一下注入方式：</p>
@@ -583,17 +585,12 @@
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href="/2022/11/21/SQLi-Labs%20Adv%20Challenges/" title="SQLi-Labs靶场刷题记录【Adv Challenges】">
-                    <div class="nextTitle">SQLi-Labs靶场刷题记录【Adv Challenges】</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2022/11/10/SQLi-Labs%20Basic%20Challenges/" title="SQLi-Labs靶场刷题记录【Basic Challenges】">
-                    <div class="prevTitle">SQLi-Labs靶场刷题记录【Basic Challenges】</div>
+                <a href="/2022/11/17/SQLi-Labs%20Stacked%20Injection/" title="SQLi-Labs靶场刷题记录【Stacked Challenges】">
+                    <div class="prevTitle">SQLi-Labs靶场刷题记录【Stacked Challenges】</div>
                 </a>
             
         </li>
@@ -734,7 +731,7 @@
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-54"><span class="toc-number">1.</span> <span class="toc-text">Lesson 54</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-55"><span class="toc-number">2.</span> <span class="toc-text">Lesson 55</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-56"><span class="toc-number">3.</span> <span class="toc-text">Lesson 56</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-57"><span class="toc-number">4.</span> <span class="toc-text">Lesson 57</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-58"><span class="toc-number">5.</span> <span class="toc-text">Lesson 58</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-59"><span class="toc-number">6.</span> <span class="toc-text">Lesson 59</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-60"><span class="toc-number">7.</span> <span class="toc-text">Lesson 60</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-61"><span class="toc-number">8.</span> <span class="toc-text">Lesson 61</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-62"><span class="toc-number">9.</span> <span class="toc-text">Lesson 62</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-63"><span class="toc-number">10.</span> <span class="toc-text">Lesson 63</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-64"><span class="toc-number">11.</span> <span class="toc-text">Lesson 64</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-65"><span class="toc-number">12.</span> <span class="toc-text">Lesson 65</span></a></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-55"><span class="toc-number">1.</span> <span class="toc-text">Lesson 55</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-56"><span class="toc-number">2.</span> <span class="toc-text">Lesson 56</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-57"><span class="toc-number">3.</span> <span class="toc-text">Lesson 57</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-58"><span class="toc-number">4.</span> <span class="toc-text">Lesson 58</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-59"><span class="toc-number">5.</span> <span class="toc-text">Lesson 59</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-60"><span class="toc-number">6.</span> <span class="toc-text">Lesson 60</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-61"><span class="toc-number">7.</span> <span class="toc-text">Lesson 61</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-62"><span class="toc-number">8.</span> <span class="toc-text">Lesson 62</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-63"><span class="toc-number">9.</span> <span class="toc-text">Lesson 63</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-64"><span class="toc-number">10.</span> <span class="toc-text">Lesson 64</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-65"><span class="toc-number">11.</span> <span class="toc-text">Lesson 65</span></a></li></ol>
             </div>
         
         <!-- sidebar -->
@@ -775,12 +772,6 @@
         
         
         
-        
-        
-        
-        
-        
-        
     
     
     
@@ -803,26 +794,26 @@
             
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span>
-            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20Stacked%20Injection/">SQLi-Labs靶场刷题记录【Stacked Challenges】</a>
+            <span class="archive-post-date">11/18</span>
+            <a class="archive-post-title" href="/2022/11/18/SQLi-Labs%20%20Challenges/">SQLi-Labs靶场刷题记录【Challenges】</a>
         </li>
     
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span>
-            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20Adv%20Challenges/">SQLi-Labs靶场刷题记录【Adv Challenges】</a>
+            <span class="archive-post-date">11/17</span>
+            <a class="archive-post-title" href="/2022/11/17/SQLi-Labs%20Stacked%20Injection/">SQLi-Labs靶场刷题记录【Stacked Challenges】</a>
         </li>
     
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span>
-            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20%20Challenges/">SQLi-Labs靶场刷题记录【Challenges】</a>
+            <span class="archive-post-date">11/16</span>
+            <a class="archive-post-title" href="/2022/11/16/SQLi-Labs%20Adv%20Challenges/">SQLi-Labs靶场刷题记录【Adv Challenges】</a>
         </li>
     
         
         <li class="archive-post-item">
-            <span class="archive-post-date">11/10</span>
-            <a class="archive-post-title" href="/2022/11/10/SQLi-Labs%20Basic%20Challenges/">SQLi-Labs靶场刷题记录【Basic Challenges】</a>
+            <span class="archive-post-date">10/23</span>
+            <a class="archive-post-title" href="/2022/10/23/SQLi-Labs%20Basic%20Challenges/">SQLi-Labs靶场刷题记录【Basic Challenges】</a>
         </li>
     
     </div>

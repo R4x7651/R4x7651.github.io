@@ -431,6 +431,42 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2022/11/27/upload-labs/">
+                
+                <span class="abstract-title-text">upload-labs 通关记录</span>
+            </a>
+            <div class="abstract-content">
+                
+
+GitHub：https://github.com/c0ny1/upload-labs
+Pass-01-前端过滤进入Pass-01，只有一个上传入口，先上传一个php马看看：
+1&lt;?php eval($_POST[shell]);?&gt;
+发现不允许上传，查看前端源码：前端根据文件扩展名过滤，有三种方法可以绕过：
+
+删除前端相关代码
+先上传png，burp抓包修改
+禁用js这里burp抓包修改上传：蚁剑连接：源码1234567891011121314151617function checkFile() &#123;    var file = document.getElem...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/11/27">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/27</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2022/11/24/xss-labs/">
                 
                 <span class="abstract-title-text">xss-labs题解</span>
@@ -718,7 +754,18 @@ Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
         
         
         
@@ -745,7 +792,7 @@ Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 6
+        Total : 7
         </div>
         <!-- search  -->
         
@@ -759,6 +806,12 @@ Lesson 21Cookie Injection- base64 encoded-single quotes and parenthesis（Cookie
             <div class="archive-year"> 2022 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/27</span>
+            <a class="archive-post-title" href="/2022/11/27/upload-labs/">upload-labs 通关记录</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/24</span>
